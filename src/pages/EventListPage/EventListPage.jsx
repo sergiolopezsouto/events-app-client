@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import eventsService from '../../services/events.services'
 import EventList from '../../components/EventList/EventList'
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 
 
 const EventsPage = () => {
@@ -15,10 +14,6 @@ const EventsPage = () => {
             .catch(err => console.log(err))
     }, [])
 
-
-    if (!events) {
-        return <LoadingSpinner />
-    }
 
     return (
         <Container>

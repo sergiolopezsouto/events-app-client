@@ -6,17 +6,17 @@
 
 
 
-## ROUTES
+## Routes
 
-| URL               | Description                     | Protected |
-| ----------------- | ------------------------------- |-----------|
-| `/`               | Index page                      |           |
-| `/events`         | Events List page                |           |
-| `/events/:id`     | Event Details page              |           |
-| `/:user_id`       | Event Details page              |           |
-| `/register`       | Signup page                     |           |
-| `/login`          | Login page                      |           |
-| `/profile`        | Profile page                    |           |
-| `*`               | 404 page                        |           |
+| URL               | Description                     | Protected  |
+| ----------------- | ------------------------------- |------------|
+| `/`               | Index page                      |     ❌     |
+| `/events`         | Events List page                |     ✅     |
+| `/events/:id`     | Event Details page              |     ✅     |
+| `/:username`      | Event Details page              |     ✅     |   // preguntar si hacerlo con el username seria mucho problema
+| `/register`       | Signup page                     |     ❌     |
+| `/login`          | Login page                      |     ❌     |
+| `/profile`        | Profile page                    |     ✅     |
+| `*`               | 404 page                        |     ❌     |
 
 
