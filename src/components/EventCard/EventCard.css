@@ -1,0 +1,10 @@
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.eventCard img {
+    height: 250px;
+    object-fit: cover;
+}
