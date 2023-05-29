@@ -25,6 +25,7 @@ const EventDetailsPage = () => {
         <Container>
             <h1> {event.name} </h1>
             <hr />
+            {event.creator && <p><strong>CREATOR: </strong> {event.creator} </p>}
             <p><strong>DESCRIPTION: </strong> {event.description} </p>
             <button className="btn btn-primary"> ASSIST </button>
             <button className="btn btn-danger"> NOT ASSIST </button>

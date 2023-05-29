@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap/';
 import eventsService from '../../services/events.services';
 import { useNavigate } from 'react-router-dom';
+import FormError from '../FormError/FormError';
 
 
 const EventForm = () => {
@@ -13,19 +14,21 @@ const EventForm = () => {
         description: '',
     })
 
+    // const [loadingImage, setLoadingImage] = useState(false)
+    const [errors, setErrors] = useState([])
+
+
     const handleInputChange = event => {
         const { name, value } = event.target
         setEventData({ ...eventData, [name]: value })
     }
 
     const handleSubmit = event => {
-
         event.preventDefault()
 
         eventsService.saveEvent(eventData)
             .then(newEvent => navigate(`/events/${newEvent.data._id}`)) // preguntarle a german si mejor que desde el server devuelva el res.data directamente
-            .catch(err => console.log(err))
-
+            .catch(err => setErrors(err.response.data.errorMessages))
     }
 
 
@@ -44,9 +47,14 @@ const EventForm = () => {
                 <Form.Control type="text" placeholder="Enter event description here" name="description" value={eventData.description} onChange={handleInputChange} />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="eventCheckInfo">
+            {/* <Form.Group className="mb-3" controlId="eventCheckInfo">
                 <Form.Check type="checkbox" label="All info is correct?" />
-            </Form.Group>
+            </Form.Group> */}
+
+            <div className='mt-5'>
+                {errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
+            </div>
+
 
             <div className='d-grid mt-5'>
                 <Button variant="primary" type="submit"> Create Event </Button>

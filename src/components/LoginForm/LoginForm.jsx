@@ -27,7 +27,6 @@ const LoginForm = () => {
         authService
             .login(loginData)
             .then(({ data }) => {
-                console.log(data)
                 storeToken(data.authToken)
                 authenticateUser()
                 navigate('/')
