@@ -31,6 +31,19 @@ class EventService {
     saveEvent(eventData) {
         return this.api.post('/saveEvent', eventData)
     }
+
+    updateEvent(eventData) {
+        return this.api.put('/updateEvent', eventData)
+    }    
+    
+    assistEvent({event_id}) {
+        return this.api.put('/assistEvent', {event_id})
+    }
+
+    notAssistEvent({event_id}) {
+        return this.api.put('/notAssistEvent', {event_id})
+    }
+
 }
 
 
