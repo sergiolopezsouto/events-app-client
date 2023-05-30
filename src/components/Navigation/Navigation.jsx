@@ -4,12 +4,19 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth.context';
 
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const Navigation = () => {
 
     const { user, logout } = useContext(AuthContext)
+
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout()
+        navigate('/')
+    }
 
     return (
 
@@ -29,7 +36,7 @@ const Navigation = () => {
                             user ?
                                 <>
                                     <Nav.Link as="span"> <Link to="/profile">Profile</Link> </Nav.Link>
-                                    <Nav.Link as="span" onClick={logout}> <Link>Logout</Link> </Nav.Link>
+                                    <Nav.Link as="span" onClick={handleLogout}> <Link to={'/'}>Logout</Link> </Nav.Link>
                                 </>
                                 :
                                 <>

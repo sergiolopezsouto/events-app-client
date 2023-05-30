@@ -8,16 +8,11 @@ const ProfilePage = () => {
 
     const { user } = useContext(AuthContext)
 
-
-    // if (!user) {
-    //     return <LoadingSpinner />
-    // }
-
-
     return (
         <Container>
             <h1> Hello {user.username} </h1>
             <hr />
+            <img src={user.profileImg} alt="profile-image" />
         </Container>
     )
 }

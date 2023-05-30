@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap/';
 import eventsService from '../../services/events.services';
 import { useNavigate } from 'react-router-dom';
 import FormError from '../FormError/FormError';
+import uploadServices from '../../services/upload.services';
 
 
 const EventForm = () => {
@@ -12,9 +13,10 @@ const EventForm = () => {
     const [eventData, setEventData] = useState({
         name: '',
         description: '',
+        imageUrl: ''
     })
 
-    // const [loadingImage, setLoadingImage] = useState(false)
+    const [loadingImage, setLoadingImage] = useState(false)
     const [errors, setErrors] = useState([])
 
 
@@ -22,6 +24,25 @@ const EventForm = () => {
         const { name, value } = event.target
         setEventData({ ...eventData, [name]: value })
     }
+
+    const handleFileUpload = e => {
+
+        setLoadingImage(true)
+        const formData = new FormData()
+        formData.append('imageData', e.target.files[0])
+
+        uploadServices
+            .uploadimage(formData)
+            .then(res => {
+                setEventData({ ...eventData, imageUrl: res.data.cloudinary_url })
+                setLoadingImage(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoadingImage(false)
+            })
+    }
+
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -51,13 +72,17 @@ const EventForm = () => {
                 <Form.Check type="checkbox" label="All info is correct?" />
             </Form.Group> */}
 
+            <Form.Group className="mb-3" controlId="image">
+                <Form.Label> Image </Form.Label>
+                <Form.Control type="file" onChange={handleFileUpload} />
+            </Form.Group>
+
             <div className='mt-5'>
                 {errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
             </div>
 
-
             <div className='d-grid mt-5'>
-                <Button variant="primary" type="submit"> Create Event </Button>
+                <Button variant="primary" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Create Event'}</Button>
             </div>
 
         </Form>

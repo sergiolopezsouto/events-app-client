@@ -2,7 +2,8 @@ import { useState } from "react"
 import { Form, Button } from "react-bootstrap"
 import authService from './../../services/auth.services'
 import { useNavigate } from "react-router-dom"
-// import { AuthContext } from "../../contexts/auth.context"
+import FormError from '../FormError/FormError'
+import uploadServices from '../../services/upload.services';
 
 
 const RegisterForm = () => {
@@ -10,10 +11,13 @@ const RegisterForm = () => {
     const [signupData, setSignupData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        profileImg: ''
     })
 
-    // const { authenticateUser, storeToken } = useContext(AuthContext)
+    const [loadingImage, setLoadingImage] = useState(false)
+    const [errors, setErrors] = useState([])
+
 
     const navigate = useNavigate()
 
@@ -22,28 +26,32 @@ const RegisterForm = () => {
         setSignupData({ ...signupData, [name]: value })
     }
 
+    const handleFileUpload = e => {
+
+        setLoadingImage(true)
+        const formData = new FormData()
+        formData.append('imageData', e.target.files[0])
+
+        uploadServices
+            .uploadimage(formData)
+            .then(res => {
+                setSignupData({ ...signupData, profileImg: res.data.cloudinary_url })
+                setLoadingImage(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoadingImage(false)
+            })
+    }
+
+
     const handleSubmit = e => {
         e.preventDefault()
 
         authService
             .signup(signupData)
             .then(() => navigate('/'))
-            // .then(({ data }) => {
-            //     // no me deja porque en data no tengo la contraseña
-            //     // console.log(data)
-            //     // const { user } = data
-            //     // const { email, password } = user
-            //     // console.log(email, password)
-            //     // authService.login({ email, password })
-            //     //     .then(({ data }) => {
-            //     //         // console.log(data)
-            //     //         storeToken(data.authToken)
-            //     //         authenticateUser()
-            //     //         navigate('/feed')
-            //     //     })
-            //     //     .catch(err => console.log(err))
-            // })
-            .catch(err => console.log(err))
+            .catch(err => setErrors(err.response.data.errorMessages))
     }
 
 
@@ -51,25 +59,34 @@ const RegisterForm = () => {
 
     return (
 
-        <Form onSubmit={handleSubmit}>
+        <Form className="mt-5" onSubmit={handleSubmit}>
 
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group className="mb-4" controlId="email">
                 <Form.Label> Email </Form.Label>
                 <Form.Control type="email" value={email} onChange={handleInputChange} name="email" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="username">
+            <Form.Group className="mb-4" controlId="username">
                 <Form.Label> Username </Form.Label>
                 <Form.Control type="text" value={username} onChange={handleInputChange} name="username" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
+            <Form.Group className="mb-4" controlId="password">
                 <Form.Label> Password </Form.Label>
                 <Form.Control type="password" value={password} onChange={handleInputChange} name="password" />
             </Form.Group>
 
-            <div className="d-grid">
-                <Button variant="dark" type="submit">Registrarme</Button>
+            <Form.Group className="mb-4" controlId="image">
+                <Form.Label> Profile Image </Form.Label>
+                <Form.Control type="file" onChange={handleFileUpload} />
+            </Form.Group>
+
+            <div className='mt-5'>
+                {errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
+            </div>
+
+            <div className='d-grid mt-5'>
+                <Button variant="dark" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Register'}</Button>
             </div>
 
         </Form>

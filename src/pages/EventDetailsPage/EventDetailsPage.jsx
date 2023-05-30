@@ -27,6 +27,7 @@ const EventDetailsPage = () => {
             <hr />
             {event.creator && <p><strong>CREATOR: </strong> {event.creator} </p>}
             <p><strong>DESCRIPTION: </strong> {event.description} </p>
+            <img src={event.imageUrl} alt="event-image" />
             <button className="btn btn-primary"> ASSIST </button>
             <button className="btn btn-danger"> NOT ASSIST </button>
         </Container>

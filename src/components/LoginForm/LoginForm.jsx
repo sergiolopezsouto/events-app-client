@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap"
 import authService from './../../services/auth.services'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from "../../contexts/auth.context"
+import FormError from '../FormError/FormError'
+
 
 const LoginForm = () => {
 
@@ -10,6 +12,8 @@ const LoginForm = () => {
         email: '',
         password: ''
     })
+
+    const [errors, setErrors] = useState([])
 
     const navigate = useNavigate()
 
@@ -21,7 +25,6 @@ const LoginForm = () => {
     }
 
     const handleSubmit = e => {
-
         e.preventDefault()
 
         authService
@@ -29,9 +32,9 @@ const LoginForm = () => {
             .then(({ data }) => {
                 storeToken(data.authToken)
                 authenticateUser()
-                navigate('/')
+                navigate('/feed')
             })
-            .catch(err => console.log(err))
+            .catch(err => setErrors(err.response.data.errorMessages))
     }
 
 
@@ -39,21 +42,24 @@ const LoginForm = () => {
 
     return (
 
-        <Form onSubmit={handleSubmit}>
+        <Form className="mt-5" onSubmit={handleSubmit}>
 
-
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group className="mb-4" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" value={email} onChange={handleInputChange} name="email" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
+            <Form.Group className="mb-4" controlId="password">
                 <Form.Label>Contraseña</Form.Label>
                 <Form.Control type="password" value={password} onChange={handleInputChange} name="password" />
             </Form.Group>
 
+            <div className='mt-5'>
+                {errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
+            </div>
+
             <div className="d-grid">
-                <Button variant="dark" type="submit">Acceder</Button>
+                <Button variant="dark" type="submit"> Login </Button>
             </div>
 
         </Form>
