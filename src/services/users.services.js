@@ -32,7 +32,6 @@ class UserService {
         return this.api.get(`/${username}`)
     }
 
-    // could be sent by params
     followUser(user_id) {
         return this.api.put(`/followUser/${user_id}`)
     }

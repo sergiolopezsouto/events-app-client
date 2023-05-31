@@ -15,7 +15,8 @@ const EventDetailsPage = () => {
 
 
     useEffect(() => {
-        eventsService.getOneEvent(event_id)
+        eventsService
+            .getOneEvent(event_id)
             .then(res => {
                 setEvent(res.data)
                 setIsAssisting(res.data.assistants.some(elm => elm._id === user._id))

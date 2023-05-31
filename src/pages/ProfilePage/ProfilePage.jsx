@@ -6,9 +6,6 @@ const ProfilePage = () => {
 
     const { user } = useContext(AuthContext)
 
-
-
-
     return (
         <Container>
 
@@ -16,7 +13,7 @@ const ProfilePage = () => {
             <hr />
             <Row>
                 <Col>
-                    <img src={user.profileImg} alt="profile-image" style={{ width: "35%" }} />
+                    <img src={user.profileImg} alt="profile-img" style={{ width: "35%" }} />
                 </Col>
                 <Col>
                     <p><strong> EVENTS CREATED: </strong></p>

@@ -15,28 +15,32 @@ const UserPage = () => {
 
 
     useEffect(() => {
-        usersService
-            .getUserById(user_id)
-            .then(res => {
-                // console.log(res.data._id)
-                setUserFounded(res.data)
-                setIsFollowing(user?.following.some(elm => elm._id === res.data._id))
-            })
+
+        usersService.getUserById(user_id)
+            .then(res => setUserFounded(res.data))
             .catch(err => console.log(err))
 
-    }, [user_id, user?._id, user?.following])
+        if (user && user._id) {
+            usersService.getUserById(user?._id)
+                .then(res => setIsFollowing(res.data.following.some(elm => elm._id === user_id)))
+                .catch(err => console.log(err))
+        }
+
+    }, [user, user_id])
 
 
     const handleFollow = () => {
         setIsFollowing(true)
-        usersService.followUser(user_id)
+        usersService
+            .followUser(user_id)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }
 
     const handleUnfollow = () => {
         setIsFollowing(false)
-        usersService.unfollowUser(user_id)
+        usersService
+            .unfollowUser(user_id)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }
