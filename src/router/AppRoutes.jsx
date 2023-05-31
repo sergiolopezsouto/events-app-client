@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import PrivateRoute from "./PrivateRoute"
+import { useContext } from "react"
+import { AuthContext } from "../contexts/auth.context"
 
 import HomePage from "../pages/HomePage/HomePage"
 import EventListPage from "../pages/EventListPage/EventListPage"
@@ -8,9 +10,12 @@ import EventCreatePage from "../pages/EventCreatePage/EventCreatePage"
 import RegisterPage from "../pages/RegisterPage/RegisterPage"
 import LoginPage from "../pages/LoginPage/LoginPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
+import UserPage from "../pages/UserPage/UserPage"
 
 
 const AppRoutes = () => {
+
+    const { user } = useContext(AuthContext)
 
     return (
         <Routes>
@@ -20,14 +25,17 @@ const AppRoutes = () => {
             <Route path="/events/:event_id" element={<EventDetailsPage />} />
             <Route path="/create-event" element={<EventCreatePage />} />
             <Route path="/users" element={<p> soy useres </p>} />
-            <Route path="/users/:username" element={<p> soy detalle user </p>} />
+            <Route path="/users/:user_id" element={<UserPage />} />
             <Route path="/events" element={<p> soy eventos </p>} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
+
             <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<ProfilePage />} />
             </Route>
+
             <Route path="*" element={<h1> 404 </h1>} />
+
         </Routes>
     )
 }
