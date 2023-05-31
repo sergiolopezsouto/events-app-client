@@ -32,12 +32,13 @@ class UserService {
         return this.api.get(`/${username}`)
     }
 
+    // could be sent by params
     followUser(user_id) {
-        return this.api.put(`/follow/${user_id}`)
+        return this.api.put(`/followUser/${user_id}`)
     }
 
     unfollowUser(user_id) {
-        return this.api.put(`/unfollow/${user_id}`)
+        return this.api.put(`/unfollowUser/${user_id}`)
     }
 
     // updateUser(userData) {

@@ -17,18 +17,36 @@ const UserPage = () => {
     useEffect(() => {
         usersService
             .getUserById(user_id)
-            .then(res => setUserFounded(res.data))
+            .then(res => {
+                // console.log(res.data._id)
+                setUserFounded(res.data)
+                setIsFollowing(user?.following.some(elm => elm._id === res.data._id))
+            })
             .catch(err => console.log(err))
 
-    }, [user_id])
+    }, [user_id, user?._id, user?.following])
 
 
-    const handleFollow = () => setIsFollowing(!isFollowing)
+    const handleFollow = () => {
+        setIsFollowing(true)
+        usersService.followUser(user_id)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+    }
+
+    const handleUnfollow = () => {
+        setIsFollowing(false)
+        usersService.unfollowUser(user_id)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+    }
+
 
 
     if (!user || !userFounded) {
         return <LoadingSpinner />
     }
+
 
     return (
         <Container>
@@ -42,7 +60,7 @@ const UserPage = () => {
                 <Col>
 
                     {
-                        !isFollowing ? <button className="btn btn-success" onClick={handleFollow}> FOLLOW </button> : <button className="btn btn-danger" onClick={handleFollow}> UNFOLLOW </button>
+                        !isFollowing ? <button className="btn btn-success" onClick={handleFollow}> FOLLOW </button> : <button className="btn btn-danger" onClick={handleUnfollow}> UNFOLLOW </button>
                     }
 
                 </Col>
