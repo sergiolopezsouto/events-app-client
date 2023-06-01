@@ -33,19 +33,10 @@ const EventsPage = () => {
             setEvents(filterEvents)
         }
 
-        // if (typeof query == "date") {
-        //     const filterEvents = eventsBackup.filter(elm => {
-        //         console.log(dateFormat(new Date(elm.date)), dateFormat(query))
-        //         // elm.date === query
-        //     })
-
-        //     setEvents(filterEvents)
-        // }
-
-        if (query instanceof Date) { // Verificar si query es una instancia de Date
-            const formattedQuery = dateFormat(query); // Formatear la fecha seleccionada
-            const filteredEvents = eventsBackup.filter(elm => dateFormat(new Date(elm.date)) === formattedQuery);
-            setEvents(filteredEvents);
+        if (query instanceof Date) {
+            const formattedQuery = dateFormat(query)
+            const filteredEvents = eventsBackup.filter(elm => dateFormat(new Date(elm.date)) === formattedQuery)
+            setEvents(filteredEvents)
         }
 
     }

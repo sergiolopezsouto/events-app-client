@@ -41,9 +41,17 @@ const ProfilePage = () => {
                     <img src={userFounded.profileImg} alt="profile-img" style={{ width: "35%" }} />
                 </Col>
                 <Col>
-                    <p><strong> EVENTS CREATED: </strong></p>
-                    <p><strong> EVENTS ASSISTED: </strong></p>
-                    <p><strong> // role: </strong>{userFounded.role}</p>
+                    <Row>
+                        <Col>
+                            <p><strong> EVENTS CREATED (modal): </strong></p>
+                        </Col>
+                        <Col>
+                            <p><strong> EVENTS ASSISTED (modal): </strong></p>
+                        </Col>
+                        <Col>
+                            <p><strong> FOLLOWING (modal): </strong></p>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
             <hr />

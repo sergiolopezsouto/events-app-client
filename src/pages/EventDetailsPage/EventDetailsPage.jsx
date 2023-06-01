@@ -13,6 +13,8 @@ const EventDetailsPage = () => {
 
     const [event, setEvent] = useState()
     const [isAssisting, setIsAssisting] = useState(false)
+    const [newComment, setNewComment] = useState('')
+    const [comments, setComments] = useState([])
 
     const navigate = useNavigate()
 
@@ -23,6 +25,7 @@ const EventDetailsPage = () => {
             .then(res => {
                 setEvent(res.data)
                 setIsAssisting(res.data.assistants.some(elm => elm._id === user._id))
+                setComments(res.data.comments)
             })
             .catch(err => console.log(err))
     }, [event_id, user?._id])
@@ -55,6 +58,18 @@ const EventDetailsPage = () => {
 
         navigate('/events')
     }
+
+    const handleAddComment = () => {
+        eventsService
+            .addComment(event_id, newComment)
+            .then(({ data }) => {
+                // data.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                // console.log(data.comments)
+                setComments(data.comments);
+                setNewComment("");
+            })
+            .catch((err) => console.log(err));
+    };
 
 
     if (!event || !event.assistants) {
@@ -121,12 +136,34 @@ const EventDetailsPage = () => {
             }
 
             <h3 className="mt-5"> COMMENTS: </h3>
-            <p>comment</p>
-            <p>comment</p>
-            <p>comment</p>
-            <p>comment</p>
 
-            <hr />
+            <Row className="">
+                <Col md={{ offset: 3, span: 6 }}>
+                    <input className="form-control mt-4 mb-5" type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                    <button className="btn btn-primary mb-5" onClick={handleAddComment}>
+                        Add Comment
+                    </button>
+                </Col>
+            </Row>
+
+            <Container className="mb-5">
+                {comments.length > 0 ?
+                    (
+                        comments
+                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                            .map((comment) => {
+                                let auxDate = new Date(comment.createdAt).toGMTString()
+                                return <p key={comment._id} > <strong>{comment.user.username}:</strong> {comment.message} {auxDate}</p>
+                            })
+                    )
+
+                    :
+
+                    (
+                        <p>No comments yet.</p>
+                    )
+                }
+            </Container>
 
         </Container >
     )

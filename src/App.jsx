@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import Navigation from './components/Navigation/Navigation';
-import AppRoutes from './router/AppRoutes';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (

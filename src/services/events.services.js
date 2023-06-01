@@ -48,6 +48,11 @@ class EventService {
         return this.api.put('/notAssistEvent', {event_id})
     }
 
+    addComment = (event_id, comment) => {
+        return this.api.post(`/${event_id}/comments`, { comment });
+    }
+
+
 }
 
 
