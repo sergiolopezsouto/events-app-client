@@ -35,6 +35,10 @@ class EventService {
     updateEvent(eventData) {
         return this.api.put('/updateEvent', eventData)
     }    
+
+    deleteEvent(event_id) {
+        return this.api.delete(`/deleteEvent/${event_id}`)
+    }  
     
     assistEvent({event_id}) {
         return this.api.put('/assistEvent', {event_id})

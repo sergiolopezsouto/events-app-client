@@ -16,12 +16,14 @@ const UserPage = () => {
 
     useEffect(() => {
 
-        usersService.getUserById(user_id)
+        usersService
+            .getUserById(user_id)
             .then(res => setUserFounded(res.data))
             .catch(err => console.log(err))
 
         if (user && user._id) {
-            usersService.getUserById(user?._id)
+            usersService
+                .getUserById(user._id)
                 .then(res => setIsFollowing(res.data.following.some(elm => elm._id === user_id)))
                 .catch(err => console.log(err))
         }
@@ -54,7 +56,7 @@ const UserPage = () => {
 
     return (
         <Container>
-
+            {/* TODO: DESACOPLAR BOTON */}
             <h1> {userFounded.username} </h1>
             <hr />
             <Row>

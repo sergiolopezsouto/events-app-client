@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import eventsService from "../../services/events.services"
 import { Col, Container, Row } from "react-bootstrap"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import { AuthContext } from "../../contexts/auth.context"
+import { dateToString } from "../../utils/dateFormat"
 
 const EventDetailsPage = () => {
 
@@ -12,6 +13,8 @@ const EventDetailsPage = () => {
 
     const [event, setEvent] = useState()
     const [isAssisting, setIsAssisting] = useState(false)
+
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -29,7 +32,7 @@ const EventDetailsPage = () => {
         setIsAssisting(true)
         eventsService
             .assistEvent({ event_id })
-            .then(({ data }) => event?.assistants.length != data.assistants.length && setEvent(data))
+            .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
             .catch(err => console.log(err))
     }
 
@@ -37,20 +40,26 @@ const EventDetailsPage = () => {
         setIsAssisting(false)
         eventsService
             .notAssistEvent({ event_id })
-            .then(({ data }) => event?.assistants.length != data.assistants.length && setEvent(data))
+            .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
             .catch(err => console.log(err))
     }
 
     const handleEditEvent = () => alert('editing')
-    const handleDeleteEvent = () => alert('deleting')
 
+    const handleDeleteEvent = () => {
+
+        eventsService
+            .deleteEvent(event_id)
+            .then()
+            .catch(err => console.log(err))
+
+        navigate('/events')
+    }
 
 
     if (!event || !event.assistants) {
         return <LoadingSpinner />
     }
-
-    const auxDate = new Date(event.date).toDateString()
 
     return (
         <Container>
@@ -65,7 +74,7 @@ const EventDetailsPage = () => {
                 <Col>
                     <Row>
                         <Col>
-                            <p><strong> DATE → </strong> {auxDate} </p>
+                            <p><strong> DATE → </strong> {dateToString(event.date)} </p>
                             <p><strong> TIME → </strong> {event.time} </p>
                             <p><strong> DESCRIPTION: </strong></p>
                             <p>{event.description}</p>

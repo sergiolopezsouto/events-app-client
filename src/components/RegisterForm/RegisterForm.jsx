@@ -12,7 +12,7 @@ const RegisterForm = () => {
         username: '',
         email: '',
         password: '',
-        profileImg: ''
+        profileImg: undefined
     })
 
     const [loadingImage, setLoadingImage] = useState(false)

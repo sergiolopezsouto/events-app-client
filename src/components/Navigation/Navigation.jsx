@@ -26,10 +26,15 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as="span"> <Link to="/feed">Feed</Link> </Nav.Link>
-                        <Nav.Link as="span"> <Link to="/events">Events</Link> </Nav.Link>
-                        <Nav.Link as="span"> <Link to="/create-event">New Event</Link> </Nav.Link>
-                        <Nav.Link as="span"> <Link to="/users">Users</Link> </Nav.Link>
+                        {
+                            user &&
+                            <>
+                                <Nav.Link as="span"> <Link to="/feed">Feed</Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/events">Events</Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/create-event">New Event</Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/users">Users</Link> </Nav.Link>
+                            </>
+                        }
                     </Nav>
                     <Nav>
                         {

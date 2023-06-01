@@ -13,7 +13,7 @@ const EventForm = () => {
     const [eventData, setEventData] = useState({
         name: '',
         description: '',
-        imageUrl: '',
+        imageUrl: undefined,
         // date: new Date().toISOString().slice(0, 10),
         date: undefined,
         time: undefined,
@@ -50,10 +50,11 @@ const EventForm = () => {
     const handleSubmit = event => {
         event.preventDefault()
 
-        eventsService.saveEvent(eventData)
-            .then(newEvent => navigate(`/events/${newEvent.data._id}`)) // preguntarle a german si mejor que desde el server devuelva el res.data directamente
-            // .catch(err => setErrors(err.response.data.errorMessages))
-            .catch(err => console.log(err.response.data.errorMessages))
+        eventsService
+            .saveEvent(eventData)
+            .then(({ data }) => navigate(`/events/${data._id}`))
+            .catch(err => setErrors(err.response.data.errorMessages))
+        // .catch(err => console.log(err.response.data.errorMessages))
     }
 
 
@@ -88,7 +89,7 @@ const EventForm = () => {
                 </Col>
             </Row>
 
-            {/* juntar en un solo input que sea buscador de sitios con la api de google maps */}
+            {/* TODO juntar en un solo input que sea buscador de sitios con la api de google maps */}
             <Row>
                 <Col>
                     <Form.Group className="mb-4" controlId="eventLatitude">
@@ -105,7 +106,7 @@ const EventForm = () => {
                 </Col>
             </Row>
 
-            {/* pensar si quitar la imagen y dejar solamente el mapa */}
+            {/* TODO pensar si quitar la imagen y dejar solamente el mapa */}
             <Form.Group className="mb-4" controlId="image">
                 <Form.Label> Image </Form.Label>
                 <Form.Control type="file" onChange={handleFileUpload} />
