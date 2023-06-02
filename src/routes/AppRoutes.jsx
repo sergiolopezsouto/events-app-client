@@ -9,6 +9,7 @@ import RegisterPage from "../pages/RegisterPage/RegisterPage"
 import LoginPage from "../pages/LoginPage/LoginPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import UserPage from "../pages/UserPage/UserPage"
+import EditProfilePage from "../pages/EditProfilePage/EditProfilePage"
 
 
 const AppRoutes = () => {
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                 <Route path="/users/:user_id" element={<UserPage />} />
                 <Route path="/events" element={<p> soy eventos </p>} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/edit" element={<EditProfilePage />} />
             </Route>
 
             <Route path="*" element={<h1> 404 </h1>} />

@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap/';
 import eventsService from '../../services/events.services';
 import { useNavigate } from 'react-router-dom';
 import FormError from '../FormError/FormError';
 import uploadServices from '../../services/upload.services';
+import { Autocomplete } from '@react-google-maps/api';
+
 
 
 const EventForm = () => {
 
     const navigate = useNavigate()
+    const autocompleteRef = useRef()
 
     const [eventData, setEventData] = useState({
         name: '',
@@ -17,10 +20,25 @@ const EventForm = () => {
         // date: new Date().toISOString().slice(0, 10),
         date: undefined,
         time: undefined,
+        location: null,
     })
 
     const [loadingImage, setLoadingImage] = useState(false)
+    const [mapLoaded, setMapLoaded] = useState(false);
     const [errors, setErrors] = useState([])
+
+    useEffect(() => {
+
+        const googleMapsScript = document.createElement('script');
+        googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBRgKaKfGaksL3PDZ-uWmOsj-PCBgJSE-E&libraries=places`;
+        googleMapsScript.async = true;
+        googleMapsScript.defer = true;
+        googleMapsScript.onload = () => {
+            setMapLoaded(true);
+            document.body.appendChild(googleMapsScript);
+        }
+
+    }, []);
 
 
     const handleInputChange = event => {
@@ -46,6 +64,14 @@ const EventForm = () => {
             })
     }
 
+    const handlePlaceSelect = (place) => {
+        const address = place.formatted_address;
+        const latitude = place.geometry.location.lat()
+        const longitude = place.geometry.location.lng()
+
+        setEventData({ ...eventData, location: { address, latitude, longitude } })
+    }
+
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -54,7 +80,6 @@ const EventForm = () => {
             .saveEvent(eventData)
             .then(({ data }) => navigate(`/events/${data._id}`))
             .catch(err => setErrors(err.response.data.errorMessages))
-        // .catch(err => console.log(err.response.data.errorMessages))
     }
 
 
@@ -91,7 +116,20 @@ const EventForm = () => {
 
             {/* TODO juntar en un solo input que sea buscador de sitios con la api de google maps */}
             <Row>
-                <Col>
+                <Form.Group className="mb-4" controlId="eventLocation">
+                    <Form.Label> Location </Form.Label>
+                    <Autocomplete
+                        onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                        onPlaceChanged={() => {
+                            const place = autocompleteRef.current.getPlace();
+                            handlePlaceSelect(place);
+                        }}
+                    >
+                        <Form.Control type="text" placeholder="Enter event location here" name="location" ref={autocompleteRef} />
+                    </Autocomplete>
+                </Form.Group>
+
+                {/* <Col>
                     <Form.Group className="mb-4" controlId="eventLatitude">
                         <Form.Label> Latitude </Form.Label>
                         <Form.Control type="text" name="latitude" value={eventData.description} onChange={handleInputChange} />
@@ -103,7 +141,7 @@ const EventForm = () => {
                         <Form.Label> Longitude </Form.Label>
                         <Form.Control type="text" name="logitude" value={eventData.description} onChange={handleInputChange} />
                     </Form.Group>
-                </Col>
+                </Col> */}
             </Row>
 
             {/* TODO pensar si quitar la imagen y dejar solamente el mapa */}

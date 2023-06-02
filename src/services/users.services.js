@@ -40,6 +40,10 @@ class UserService {
         return this.api.put(`/unfollowUser/${user_id}`)
     }
 
+    updateProfile(newUserInfo) {
+        return this.api.put(`/updateProfile` , newUserInfo)
+    }
+
     // updateUser(userData) {
     //     return this.api.post('/updateUser', userData)
     // }

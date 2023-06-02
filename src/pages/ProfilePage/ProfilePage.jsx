@@ -3,6 +3,7 @@ import { AuthContext } from "../../contexts/auth.context"
 import { Container, Row, Col } from "react-bootstrap"
 import usersService from "../../services/users.services"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+import { Link } from "react-router-dom"
 
 const ProfilePage = () => {
 
@@ -22,9 +23,9 @@ const ProfilePage = () => {
     }
 
 
-    const handleEditProfile = () => {
-        alert('edit profile')
-    }
+    // const handleEditProfile = () => {
+    //     alert('edit profile')
+    // }
 
 
     if (!userFounded) {
@@ -55,7 +56,9 @@ const ProfilePage = () => {
                 </Col>
             </Row>
             <hr />
-            <button className="btn btn-dark" onClick={handleEditProfile}> EDIT PROFILE </button>
+            <Link to={'/profile/edit'}>
+                <button className="btn btn-dark"> EDIT PROFILE </button>
+            </Link>
 
         </Container>
     )

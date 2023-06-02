@@ -29,7 +29,7 @@ const EventsPage = () => {
     const filterEvents = query => {
 
         if (typeof query == "string") {
-            const filterEvents = eventsBackup.filter(elm => elm.name.includes(query))
+            const filterEvents = eventsBackup.filter(elm => elm.name.toLowerCase().includes(query.toLowerCase()))
             setEvents(filterEvents)
         }
 
@@ -37,6 +37,10 @@ const EventsPage = () => {
             const formattedQuery = dateFormat(query)
             const filteredEvents = eventsBackup.filter(elm => dateFormat(new Date(elm.date)) === formattedQuery)
             setEvents(filteredEvents)
+        }
+
+        if (query === null) {
+            setEvents(eventsBackup);
         }
 
     }

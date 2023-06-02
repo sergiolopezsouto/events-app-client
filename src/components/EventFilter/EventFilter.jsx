@@ -6,7 +6,7 @@ import { dateFormat } from "../../utils/dateFormat"
 const EventFilter = ({ filterEvents }) => {
 
     const [textQuery, setTextQuery] = useState('')
-    const [dateQuery, setDateQuery] = useState(new Date())
+    const [dateQuery, setDateQuery] = useState('')
 
 
     const handleSearch = e => {
@@ -17,9 +17,14 @@ const EventFilter = ({ filterEvents }) => {
 
     const handleDate = e => {
         const inputValue = e.target.value
-        const dateValue = new Date(inputValue);
-        setDateQuery(dateFormat(dateValue))
-        filterEvents(dateValue)
+
+        if (!inputValue) {
+            filterEvents(null)
+        } else {
+            const dateValue = new Date(inputValue)
+            setDateQuery(dateFormat(dateValue))
+            filterEvents(dateValue)
+        }
     }
 
 
