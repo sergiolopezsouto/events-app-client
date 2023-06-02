@@ -83,53 +83,41 @@ const EventDetailsPage = () => {
             <hr />
             <Row>
                 <Col>
-                    <MapContainer />
+                    <MapContainer location={event.location} />
                 </Col>
 
                 <Col>
                     <Row>
                         <Col>
-                            <p>
-                                <strong> DATE → </strong> {dateToString(event.date)}{" "}
-                            </p>
-                            <p>
-                                <strong> TIME → </strong> {event.time}{" "}
-                            </p>
-                            <p>
-                                <strong> DESCRIPTION: </strong>
-                            </p>
+                            <p><strong> DATE → </strong> {dateToString(event.date)}</p>
+                            <p><strong> TIME → </strong> {event.time}{" "} </p>
+                            <p><strong> DESCRIPTION: </strong></p>
                             <p>{event.description}</p>
                         </Col>
                         <Col>
-                            <p>
-                                <strong> CREATOR: </strong>{" "}
-                                {user._id === event.creator._id ? (
-                                    <Link to={`/profile`}> {event.creator.username} </Link>
-                                ) : (
-                                    <Link to={`/users/${event.creator._id}`}>
-                                        {" "}
-                                        {event.creator.username}{" "}
-                                    </Link>
-                                )}{" "}
+                            <p><strong> CREATOR: </strong>
+                                {user._id === event.creator._id ?
+                                    (
+                                        <Link to={`/profile`}> {event.creator.username} </Link>
+                                    )
+                                    :
+                                    (
+                                        <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link>
+                                    )
+                                }
                             </p>
 
-                            <p>
-                                <strong> ASSISTANTS: </strong>
-                            </p>
-                            {event.assistants.length > 0 ? (
-                                event.assistants.map((assistant) => (
-                                    <Link
-                                        key={assistant._id}
-                                        className="d-block mb-3"
-                                        to={`/users/${assistant._id}`}
-                                    >
-                                        {" "}
-                                        {assistant.username}{" "}
-                                    </Link>
-                                ))
-                            ) : (
-                                <p>No assistants yet.</p>
-                            )}
+                            <p><strong> ASSISTANTS: </strong></p>
+                            {event.assistants.length > 0 ?
+                                (
+                                    event.assistants.map((assistant) => {
+                                        return <Link key={assistant._id} className="d-block mb-3" to={`/users/${assistant._id}`}> {assistant.username}</Link>
+                                    })
+                                )
+                                :
+                                (
+                                    <p> No assistants yet. </p>
+                                )}
                         </Col>
                     </Row>
                 </Col>
@@ -137,83 +125,69 @@ const EventDetailsPage = () => {
 
             <hr />
 
-            {user._id === event.creator._id ? (
-                <>
-                    <Container className="mt-5 mb-5">
-                        <Row>
-                            <Col>
-                                <button className="btn btn-dark" onClick={handleEditEvent}>
-                                    {" "}
-                                    EDIT EVENT{" "}
-                                </button>
-                            </Col>
-                            <Col>
-                                <button
-                                    className="btn btn-danger "
-                                    onClick={handleDeleteEvent}
-                                >
-                                    {" "}
-                                    DELETE EVENT{" "}
-                                </button>
-                            </Col>
-                        </Row>
-                    </Container>
+            {user._id === event.creator._id ?
+                (
+                    <>
+                        <Container className="mt-5 mb-5">
+                            <Row>
+                                <Col>
+                                    <button className="btn btn-dark" onClick={handleEditEvent}> EDIT EVENT </button>
+                                </Col>
+                                <Col>
+                                    <button className="btn btn-danger " onClick={handleDeleteEvent}> DELETE EVENT </button>
+                                </Col>
+                            </Row>
+                        </Container>
 
-                    <hr />
-                </>
-            ) : (
-                <>
-                    {!isAssisting ? (
-                        <button className="btn btn-primary" onClick={handleAssist}>
-                            {" "}
-                            ASSIST{" "}
-                        </button>
-                    ) : (
-                        <button className="btn btn-danger" onClick={handleNotAssist}>
-                            {" "}
-                            NOT ASSIST{" "}
-                        </button>
-                    )}
+                        <hr />
+                    </>
+                )
+                :
+                (
+                    <>
+                        {!isAssisting ? (
+                            <button className="btn btn-primary" onClick={handleAssist}>
+                                {" "}
+                                ASSIST{" "}
+                            </button>
+                        ) : (
+                            <button className="btn btn-danger" onClick={handleNotAssist}>
+                                {" "}
+                                NOT ASSIST{" "}
+                            </button>
+                        )}
 
-                    <hr />
-                </>
-            )}
+                        <hr />
+                    </>
+                )
+            }
 
             <h3 className="mt-5"> COMMENTS: </h3>
 
             <Row className="">
                 <Col md={{ offset: 3, span: 6 }}>
-                    <input
-                        className="form-control mt-4 mb-5"
-                        type="text"
-                        placeholder="Add a comment..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                    />
-                    <button className="btn btn-primary mb-5" onClick={handleAddComment}>
-                        Add Comment
-                    </button>
+                    <input className="form-control mt-4 mb-5" type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                    <button className="btn btn-primary mb-5" onClick={handleAddComment}> Add Comment </button>
                 </Col>
             </Row>
 
             <Container className="mb-5">
-                {comments.length > 0 ? (
-                    comments
-                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                        // .reverse()
-                        .map((comment) => {
-                            let auxDate = new Date(comment.createdAt).toGMTString();
-                            return (
-                                <p key={comment._id}>
-                                    {" "}
-                                    <strong>{comment.user.username}:</strong> {comment.message}{" "}
-                                    {auxDate}
-                                </p>
-                            );
-                        })
-                ) : (
-                    <p>No comments yet.</p>
-                )}
+                {comments.length > 0 ?
+                    (
+                        comments
+                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                            .map((comment) => {
+                                let auxDate = new Date(comment.createdAt).toGMTString();
+                                return (
+                                    <p key={comment._id}> <strong> {comment.user.username}: </strong> {comment.message}{auxDate} </p>
+                                )
+                            })
+                    )
+                    :
+                    (
+                        <p>No comments yet.</p>
+                    )
+                }
             </Container>
 
         </Container>

@@ -1,11 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap/';
-import eventsService from '../../services/events.services';
-import { useNavigate } from 'react-router-dom';
-import FormError from '../FormError/FormError';
-import uploadServices from '../../services/upload.services';
-import { Autocomplete } from '@react-google-maps/api';
-
+import { useRef, useState } from 'react'
+import { Form, Button, Row, Col } from 'react-bootstrap/'
+import eventsService from '../../services/events.services'
+import { useNavigate } from 'react-router-dom'
+import FormError from '../FormError/FormError'
+import uploadServices from '../../services/upload.services'
+import { Autocomplete } from '@react-google-maps/api'
 
 
 const EventForm = () => {
@@ -20,25 +19,11 @@ const EventForm = () => {
         // date: new Date().toISOString().slice(0, 10),
         date: undefined,
         time: undefined,
-        location: null,
+        location: undefined,
     })
 
     const [loadingImage, setLoadingImage] = useState(false)
-    const [mapLoaded, setMapLoaded] = useState(false);
     const [errors, setErrors] = useState([])
-
-    useEffect(() => {
-
-        const googleMapsScript = document.createElement('script');
-        googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBRgKaKfGaksL3PDZ-uWmOsj-PCBgJSE-E&libraries=places`;
-        googleMapsScript.async = true;
-        googleMapsScript.defer = true;
-        googleMapsScript.onload = () => {
-            setMapLoaded(true);
-            document.body.appendChild(googleMapsScript);
-        }
-
-    }, []);
 
 
     const handleInputChange = event => {
@@ -90,7 +75,6 @@ const EventForm = () => {
             <Form.Group className="mb-4" controlId="eventName">
                 <Form.Label> Event Name </Form.Label>
                 <Form.Control type="text" placeholder="Enter event name here" name="name" value={eventData.name} onChange={handleInputChange} />
-                {/* <Form.Text className="text-muted"> We'll never share your email with anyone else. </Form.Text> */}
             </Form.Group>
 
             <Form.Group className="mb-4" controlId="eventDescription">
@@ -128,20 +112,6 @@ const EventForm = () => {
                         <Form.Control type="text" placeholder="Enter event location here" name="location" ref={autocompleteRef} />
                     </Autocomplete>
                 </Form.Group>
-
-                {/* <Col>
-                    <Form.Group className="mb-4" controlId="eventLatitude">
-                        <Form.Label> Latitude </Form.Label>
-                        <Form.Control type="text" name="latitude" value={eventData.description} onChange={handleInputChange} />
-                    </Form.Group>
-                </Col>
-
-                <Col>
-                    <Form.Group className="mb-4" controlId="eventLongitude">
-                        <Form.Label> Longitude </Form.Label>
-                        <Form.Control type="text" name="logitude" value={eventData.description} onChange={handleInputChange} />
-                    </Form.Group>
-                </Col> */}
             </Row>
 
             {/* TODO pensar si quitar la imagen y dejar solamente el mapa */}
