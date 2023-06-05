@@ -20,8 +20,12 @@ const EventsPage = () => {
         eventsService
             .getEvents()
             .then(res => {
-                setEvents(res.data)
-                setEventsBackup(res.data)
+                const onlyIncomingEvents = res.data.filter(event => new Date(event.date) > new Date())
+                // console.log(onlyIncomingEvents)
+                setEvents(onlyIncomingEvents)
+                setEventsBackup(onlyIncomingEvents)
+                // setEvents(res.data)
+                // setEventsBackup(res.data)
             })
             .catch(err => console.log(err))
     }

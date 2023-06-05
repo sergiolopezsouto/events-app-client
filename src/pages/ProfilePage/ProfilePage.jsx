@@ -23,10 +23,6 @@ const ProfilePage = () => {
     }
 
 
-    // const handleEditProfile = () => {
-    //     alert('edit profile')
-    // }
-
 
     if (!userFounded) {
         return <LoadingSpinner />

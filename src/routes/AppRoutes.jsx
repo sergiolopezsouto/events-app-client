@@ -31,7 +31,6 @@ const AppRoutes = () => {
                 <Route path="/events/:event_id/edit" element={<EditEventPage />} />
                 <Route path="/users" element={<p> soy useres </p>} />
                 <Route path="/users/:user_id" element={<UserPage />} />
-                {/* <Route path="/events" element={<p> soy eventos </p>} /> */}
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/profile/edit" element={<EditProfilePage />} />
             </Route>

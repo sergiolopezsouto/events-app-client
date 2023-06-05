@@ -49,7 +49,7 @@ class EventService {
     }
 
     addComment = (event_id, comment) => {
-        return this.api.post(`/${event_id}/comments`, { comment });
+        return this.api.post(`/${event_id}/comments`, { comment })
     }
 
 

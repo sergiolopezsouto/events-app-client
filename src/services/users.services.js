@@ -20,9 +20,6 @@ class UserService {
     }
 
 
-    // getEvents() {
-    //     return this.api.get('/getAllEvents')
-    // }
 
     getUserById(user_id) {
         return this.api.get(`/${user_id}`)
@@ -43,6 +40,7 @@ class UserService {
     updateProfile(newUserInfo) {
         return this.api.put(`/updateProfile` , newUserInfo)
     }
+
 
     // updateUser(userData) {
     //     return this.api.post('/updateUser', userData)

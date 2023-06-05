@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/auth.context"
 import { Col, Container, Row } from "react-bootstrap"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import usersService from "../../services/users.services"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 
@@ -9,12 +9,17 @@ const UserPage = () => {
 
     const { user } = useContext(AuthContext)
     const { user_id } = useParams()
+    const navigate = useNavigate()
 
     const [userFounded, setUserFounded] = useState()
     const [isFollowing, setIsFollowing] = useState(false)
 
 
     useEffect(() => {
+
+        if (user._id === user_id) {
+            navigate('/profile', { replace: true })
+        }
 
         usersService
             .getUserById(user_id)
@@ -28,7 +33,7 @@ const UserPage = () => {
                 .catch(err => console.log(err))
         }
 
-    }, [user, user_id])
+    }, [user, user_id, navigate])
 
 
     const handleFollow = () => {

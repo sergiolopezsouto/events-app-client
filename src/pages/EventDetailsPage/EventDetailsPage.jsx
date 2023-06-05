@@ -12,7 +12,7 @@ const EventDetailsPage = () => {
     const { event_id } = useParams();
 
     const [event, setEvent] = useState();
-    const [isAssisting, setIsAssisting] = useState(false);
+    const [isAssisting, setIsAssisting] = useState(false)
     const [newComment, setNewComment] = useState("");
     const [comments, setComments] = useState([]);
 
@@ -23,9 +23,7 @@ const EventDetailsPage = () => {
             .getOneEvent(event_id)
             .then((res) => {
                 setEvent(res.data);
-                setIsAssisting(
-                    res.data.assistants.some((elm) => elm._id === user._id)
-                );
+                setIsAssisting(res.data.assistants.some((elm) => elm._id === user._id))
                 setComments(res.data.comments);
             })
             .catch((err) => console.log(err));
@@ -40,7 +38,7 @@ const EventDetailsPage = () => {
                 event?.assistants.length !== data.assistants.length && setEvent(data)
             )
             .catch((err) => console.log(err));
-    };
+    }
 
     const handleNotAssist = () => {
         setIsAssisting(false);
@@ -50,7 +48,7 @@ const EventDetailsPage = () => {
                 event?.assistants.length !== data.assistants.length && setEvent(data)
             )
             .catch((err) => console.log(err));
-    };
+    }
 
 
     const handleDeleteEvent = () => {
@@ -60,7 +58,7 @@ const EventDetailsPage = () => {
             .catch((err) => console.log(err));
 
         navigate("/events");
-    };
+    }
 
     const handleAddComment = () => {
         eventsService
@@ -70,7 +68,7 @@ const EventDetailsPage = () => {
                 setNewComment("");
             })
             .catch((err) => console.log(err));
-    };
+    }
 
     if (!event || !event.assistants) {
         return <LoadingSpinner />;
@@ -89,21 +87,14 @@ const EventDetailsPage = () => {
                     <Row>
                         <Col>
                             <p><strong> DATE → </strong> {dateToString(event.date)}</p>
-                            <p><strong> TIME → </strong> {event.time}{" "} </p>
+                            <p><strong> TIME → </strong> {event.time} </p>
                             <p><strong> DESCRIPTION: </strong></p>
                             <p>{event.description}</p>
                         </Col>
                         <Col>
-                            <p><strong> CREATOR: </strong>
-                                {user._id === event.creator._id ?
-                                    (
-                                        <Link to={`/profile`}> {event.creator.username} </Link>
-                                    )
-                                    :
-                                    (
-                                        <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link>
-                                    )
-                                }
+                            <p>
+                                <strong> CREATOR: </strong>
+                                <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link>
                             </p>
 
                             <p><strong> ASSISTANTS: </strong></p>
@@ -147,15 +138,9 @@ const EventDetailsPage = () => {
                 (
                     <>
                         {!isAssisting ? (
-                            <button className="btn btn-primary" onClick={handleAssist}>
-                                {" "}
-                                ASSIST{" "}
-                            </button>
+                            <button className="btn btn-primary" onClick={handleAssist}> ASSIST </button>
                         ) : (
-                            <button className="btn btn-danger" onClick={handleNotAssist}>
-                                {" "}
-                                NOT ASSIST{" "}
-                            </button>
+                            <button className="btn btn-danger" onClick={handleNotAssist}> NOT ASSIST </button>
                         )}
 
                         <hr />
@@ -180,7 +165,12 @@ const EventDetailsPage = () => {
                             .map((comment) => {
                                 let auxDate = new Date(comment.createdAt).toGMTString();
                                 return (
-                                    <p key={comment._id}> <strong> {comment.user.username}: </strong> {comment.message}{auxDate} </p>
+                                    <Row key={comment._id} className="mb-3">
+                                        <Col> <Link to={`/users/${comment.user._id}`}> <strong> {comment.user.username} </strong>  </Link></Col>
+                                        <Col> {comment.message} </Col>
+                                        <Col>{auxDate}</Col>
+                                        {/* <p key={comment._id}> <strong> {comment.user.username}: </strong> {comment.message}{auxDate} </p> */}
+                                    </Row>
                                 )
                             })
                     )

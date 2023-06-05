@@ -32,10 +32,10 @@ const Navigation = () => {
                         {
                             user &&
                             <>
-                                <Nav.Link as="span"> <Link to="/feed">//Feed</Link> </Nav.Link>
-                                <Nav.Link as="span"> <Link to="/events">Events</Link> </Nav.Link>
-                                <Nav.Link as="span"> <Link to="/create-event">New Event</Link> </Nav.Link>
-                                <Nav.Link as="span"> <Link to="/users">//Users</Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/feed"> Feed </Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/events"> Events </Link> </Nav.Link>
+                                <Nav.Link as="span"> <Link to="/create-event"> Create Event </Link> </Nav.Link>
+                                {/* <Nav.Link as="span"> <Link to="/users"> //Users </Link> </Nav.Link> */}
                             </>
                         }
                     </Nav>
@@ -43,13 +43,13 @@ const Navigation = () => {
                         {
                             user ?
                                 <>
-                                    <Nav.Link as="span"> <Link to="/profile">Profile</Link> </Nav.Link>
-                                    <Nav.Link as="span" onClick={handleLogout}> <Link to={'/'}>Logout</Link> </Nav.Link>
+                                    <Nav.Link as="span"> <Link to="/profile"> Profile </Link> </Nav.Link>
+                                    <Nav.Link as="span" onClick={handleLogout}> <Link to={'/'}> Logout </Link> </Nav.Link>
                                 </>
                                 :
                                 <>
-                                    <Nav.Link as="span"> <Link to="/register">Register</Link> </Nav.Link>
-                                    <Nav.Link as="span"> <Link to="/login">Login</Link> </Nav.Link>
+                                    <Nav.Link as="span"> <Link to="/register"> Register </Link> </Nav.Link>
+                                    <Nav.Link as="span"> <Link to="/login"> Login </Link> </Nav.Link>
                                 </>
                         }
                     </Nav>
