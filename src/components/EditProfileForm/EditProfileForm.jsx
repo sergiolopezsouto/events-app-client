@@ -8,6 +8,7 @@ import usersService from "../../services/users.services"
 import { AuthContext } from "../../contexts/auth.context"
 
 const EditProfileForm = () => {
+
     const { user } = useContext(AuthContext)
 
     const [userFounded, setUserFounded] = useState(null)
@@ -24,7 +25,10 @@ const EditProfileForm = () => {
 
     useEffect(() => {
         if (user) {
-            loadUser()
+            usersService
+                .getUserById(user._id)
+                .then(res => setUserFounded(res.data))
+                .catch(err => console.log(err))
         }
     }, [user])
 
@@ -38,12 +42,6 @@ const EditProfileForm = () => {
         }
     }, [userFounded])
 
-    const loadUser = () => {
-        usersService
-            .getUserById(user._id)
-            .then(res => setUserFounded(res.data))
-            .catch(err => console.log(err))
-    }
 
     const handleInputChange = e => {
         const { value, name } = e.target

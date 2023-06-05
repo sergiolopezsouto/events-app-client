@@ -1,13 +1,19 @@
-import { useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap/'
 import eventsService from '../../services/events.services'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import FormError from '../FormError/FormError'
 import uploadServices from '../../services/upload.services'
 import { Autocomplete } from '@react-google-maps/api'
+import { dateFormat } from '../../utils/dateFormat'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 
-const EventForm = () => {
+const EditEventForm = () => {
+
+    const { event_id } = useParams()
+
+    const [eventFounded, setEventFounded] = useState(null)
 
     const navigate = useNavigate()
     const autocompleteRef = useRef()
@@ -15,15 +21,41 @@ const EventForm = () => {
     const [eventData, setEventData] = useState({
         name: '',
         description: '',
-        imageUrl: undefined,
+        imageUrl: '',
         // date: new Date().toISOString().slice(0, 10),
-        date: undefined,
-        time: undefined,
-        location: '',
+        date: '',
+        time: '',
+        location: { address: '', latitude: null, longitude: null },
     })
 
     const [loadingImage, setLoadingImage] = useState(false)
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState()
+
+
+    useEffect(() => {
+        if (event_id) {
+            eventsService
+                .getOneEvent(event_id)
+                .then(res => setEventFounded(res.data))
+                .catch(err => console.log(err))
+        }
+    }, [event_id])
+
+
+    useEffect(() => {
+        if (eventFounded) {
+            setEventData({
+                name: eventFounded.name,
+                description: eventFounded.description,
+                imageUrl: eventFounded.imageUrl,
+                // date: new Date().toISOString().slice(0, 10),
+                date: eventFounded.date,
+                time: eventFounded.time,
+                location: eventFounded.location,
+            })
+        }
+    }, [eventFounded])
+
 
 
     const handleInputChange = event => {
@@ -62,11 +94,16 @@ const EventForm = () => {
         event.preventDefault()
 
         eventsService
-            .saveEvent(eventData)
-            .then(({ data }) => navigate(`/events/${data._id}`))
+            .updateEvent(event_id, eventData)
+            .then((res) => navigate(`/events/${eventFounded._id}`))
             .catch(err => setErrors(err.response.data.errorMessages))
     }
 
+
+
+    if (!eventFounded) {
+        return <LoadingSpinner />
+    }
 
     return (
 
@@ -86,7 +123,7 @@ const EventForm = () => {
                 <Col>
                     <Form.Group className="mb-4" controlId="eventDate">
                         <Form.Label> Date </Form.Label>
-                        <Form.Control type="date" name="date" value={eventData.date} onChange={handleInputChange} />
+                        <Form.Control type="date" name="date" value={dateFormat(new Date(eventData.date))} onChange={handleInputChange} />
                     </Form.Group>
                 </Col>
 
@@ -109,7 +146,7 @@ const EventForm = () => {
                             handlePlaceSelect(place);
                         }}
                     >
-                        <Form.Control type="text" placeholder="Enter event location here" name="location" ref={autocompleteRef} />
+                        <Form.Control type="text" placeholder="Enter event location here" name="location" ref={autocompleteRef} defaultValue={eventFounded.location.address} />
                     </Autocomplete>
                 </Form.Group>
             </Row>
@@ -121,11 +158,11 @@ const EventForm = () => {
             </Form.Group>
 
             <div className='mt-5'>
-                {errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
+                {errors && errors.length > 0 && <FormError> {errors.map(elm => <p>{elm}</p>)} </FormError>}
             </div>
 
             <div className='d-grid mt-5'>
-                <Button variant="primary" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Create Event'}</Button>
+                <Button variant="primary" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Update Event'}</Button>
             </div>
 
         </Form>
@@ -134,4 +171,4 @@ const EventForm = () => {
 }
 
 
-export default EventForm
+export default EditEventForm

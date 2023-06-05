@@ -52,7 +52,6 @@ const EventDetailsPage = () => {
             .catch((err) => console.log(err));
     };
 
-    const handleEditEvent = () => alert("editing");
 
     const handleDeleteEvent = () => {
         eventsService
@@ -131,7 +130,9 @@ const EventDetailsPage = () => {
                         <Container className="mt-5 mb-5">
                             <Row>
                                 <Col>
-                                    <button className="btn btn-dark" onClick={handleEditEvent}> EDIT EVENT </button>
+                                    <Link to={`/events/${event_id}/edit`}>
+                                        <button className="btn btn-dark"> EDIT EVENT </button>
+                                    </Link>
                                 </Col>
                                 <Col>
                                     <button className="btn btn-danger " onClick={handleDeleteEvent}> DELETE EVENT </button>

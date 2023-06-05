@@ -10,6 +10,8 @@ import LoginPage from "../pages/LoginPage/LoginPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import UserPage from "../pages/UserPage/UserPage"
 import EditProfilePage from "../pages/EditProfilePage/EditProfilePage"
+import EditEventPage from "../pages/EditEventPage/EditEventPage"
+import FeedPage from "../pages/FeedPage/FeedPage"
 
 
 const AppRoutes = () => {
@@ -22,14 +24,14 @@ const AppRoutes = () => {
             <Route path="/login" element={<LoginPage />} />
 
             <Route element={<PrivateRoute />}>
-                <Route path="/feed" element={<p> soy feed </p>} />
+                <Route path="/feed" element={<FeedPage />} />
                 <Route path="/create-event" element={<EventCreatePage />} />
                 <Route path="/events" element={<EventListPage />} />
                 <Route path="/events/:event_id" element={<EventDetailsPage />} />
-                {/* <Route path="/events/:event_id/edit" element={<EventDetailsPage />} /> */}
+                <Route path="/events/:event_id/edit" element={<EditEventPage />} />
                 <Route path="/users" element={<p> soy useres </p>} />
                 <Route path="/users/:user_id" element={<UserPage />} />
-                <Route path="/events" element={<p> soy eventos </p>} />
+                {/* <Route path="/events" element={<p> soy eventos </p>} /> */}
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/profile/edit" element={<EditProfilePage />} />
             </Route>

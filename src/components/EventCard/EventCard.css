@@ -5,6 +5,7 @@ a {
 
 
 .eventCard img {
-    height: 250px;
+    height: 100vh;
+    width: 200%;
     object-fit: cover;
 }
