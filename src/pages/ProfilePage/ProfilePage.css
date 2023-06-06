@@ -2,3 +2,15 @@
     color: gray;
     text-decoration: line-through;
 }
+
+.user-img {
+    overflow: hidden;
+    height: 20em;
+    width: 20em;
+    border-radius: 50%;
+}
+
+img {
+    object-fit: cover;
+    position: center center;
+}

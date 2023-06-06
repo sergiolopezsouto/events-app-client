@@ -33,13 +33,6 @@ const ProfilePage = () => {
         loadUser()
     }, [user])
 
-    // const loadUser = () => {
-    //     usersService
-    //         .getUserById(user._id)
-    //         .then(res => setUserFounded(res.data))
-    //         .catch(err => console.log(err))
-    // }
-
     const loadUser = () => {
         usersService
             .getUserById(user._id)
@@ -65,19 +58,24 @@ const ProfilePage = () => {
             <h1> Hello, {userFounded.username} </h1>
             <hr />
             <Row>
-                <Col>
-                    <img src={userFounded.profileImg} alt="profile-img" style={{ width: "50%" }} />
+                {/* <Col>
+                    <img src={userFounded.profileImg} alt="profile-img" style={{ width: "50%", borderRadius: "100%" }} />
+                </Col> */}
+                <Col className='d-flex justify-content-center' sm={12} md={6}>
+                    <article className='user-img' >
+                        <img src={userFounded.profileImg} alt="profile-img" />
+                    </article>
                 </Col>
 
                 <Col className='mt-5'>
                     <Row>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowCreatedEvents}> EVENTS CREATED </Button>
                         </Col>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowAssistedEvents}> EVENTS ASSISTED </Button>
                         </Col>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowFollowing}> FOLLOWING </Button>
                         </Col>
                     </Row>

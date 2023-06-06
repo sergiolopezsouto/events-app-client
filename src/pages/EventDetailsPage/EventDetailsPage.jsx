@@ -29,42 +29,29 @@ const EventDetailsPage = () => {
         eventsService
             .getOneEvent(event_id)
             .then((res) => {
-                setEvent(res.data);
+                setEvent(res.data)
                 setIsAssisting(res.data.assistants.some((elm) => elm._id === user._id))
-                setComments(res.data.comments);
+                setComments(res.data.comments)
             })
-            .catch((err) => console.log(err));
-    }, [event_id, user?._id]);
+            .catch((err) => console.log(err))
+    }, [event_id, user?._id])
 
 
     const handleAssist = () => {
-        setIsAssisting(true);
+        setIsAssisting(true)
         eventsService
             .assistEvent({ event_id })
-            .then(({ data }) =>
-                event?.assistants.length !== data.assistants.length && setEvent(data)
-            )
-            .catch((err) => console.log(err));
+            .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
+            .catch((err) => console.log(err))
     }
 
     const handleNotAssist = () => {
         setIsAssisting(false);
         eventsService
             .notAssistEvent({ event_id })
-            .then(({ data }) =>
-                event?.assistants.length !== data.assistants.length && setEvent(data)
-            )
+            .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
             .catch((err) => console.log(err));
     }
-
-    // const handleDeleteEvent = () => {
-    //     eventsService
-    //         .deleteEvent(event_id)
-    //         .then()
-    //         .catch((err) => console.log(err));
-
-    //     navigate("/events");
-    // }
 
     const handleDeleteEvent = () => {
         eventsService
@@ -86,6 +73,7 @@ const EventDetailsPage = () => {
             .catch((err) => console.log(err));
     }
 
+
     if (!event || !event.assistants) {
         return <LoadingSpinner />;
     }
@@ -95,32 +83,21 @@ const EventDetailsPage = () => {
             <h1> {event.name} </h1>
             <hr />
             <Row>
-                <Col>
+                <Col sm={12} md={6} className="mt-3 mb-3">
                     <MapContainer location={event.location} />
                 </Col>
 
-                <Col>
+                <Col sm={12} md={6} className="mt-3 mb-3">
                     <Row>
-                        <Col>
-                            <p><strong> DATE → </strong> {dateToString(event.date)}</p>
-                            <p><strong> TIME → </strong> {event.time} </p>
+                        <Col style={{ textAlign: "left" }}>
+                            <p><strong> DATE: </strong> {dateToString(event.date)}</p>
+                            <p><strong> TIME: </strong> {event.time} </p>
+                            <p><strong> CREATOR: </strong> <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link></p>
                             <p><strong> DESCRIPTION: </strong></p>
                             <p>{event.description}</p>
                         </Col>
                         <Col>
-                            <p><strong> CREATOR: </strong> <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link></p>
                             <Button variant="primary" onClick={handleShowAssistants}> SEE ASSISTANTS </Button>
-                            {/* <p><strong> ASSISTANTS: </strong></p>
-                            {event.assistants.length > 0 ?
-                                (
-                                    event.assistants.map((assistant) => {
-                                        return <Link key={assistant._id} className="d-block mb-3" to={`/users/${assistant._id}`}> {assistant.username}</Link>
-                                    })
-                                )
-                                :
-                                (
-                                    <p> No assistants yet. </p>
-                                )} */}
                         </Col>
                     </Row>
                 </Col>
@@ -131,7 +108,7 @@ const EventDetailsPage = () => {
             {user._id === event.creator._id ?
                 (
                     <>
-                        <Container className="mt-5 mb-5">
+                        <Container className="mt-3 mb-3">
                             <Row>
                                 <Col>
                                     <Link to={`/events/${event_id}/edit`}>
@@ -139,9 +116,7 @@ const EventDetailsPage = () => {
                                     </Link>
                                 </Col>
                                 <Col>
-                                    {/* <button className="btn btn-danger " onClick={handleDeleteEvent}> DELETE EVENT </button> */}
                                     <Button variant="danger" onClick={handleShow}>DELETE EVENT</Button>
-
                                 </Col>
                             </Row>
                         </Container>
@@ -152,13 +127,22 @@ const EventDetailsPage = () => {
                 :
                 (
                     <>
-                        {!isAssisting ? (
-                            <button className="btn btn-primary" onClick={handleAssist}> ASSIST </button>
-                        ) : (
-                            <button className="btn btn-danger" onClick={handleNotAssist}> NOT ASSIST </button>
-                        )}
+                        <Container className="mt-3 mb-3">
 
-                        <hr />
+                            {
+                                !isAssisting ?
+                                    (
+                                        <button className="btn btn-success" onClick={handleAssist}> ASSIST </button>
+                                    )
+                                    :
+                                    (
+                                        <button className="btn btn-danger" onClick={handleNotAssist}> NOT ASSIST </button>
+                                    )
+                            }
+
+                            <hr className="mt-3" />
+                        </Container>
+
                     </>
                 )
             }
@@ -181,17 +165,16 @@ const EventDetailsPage = () => {
                                 let auxDate = new Date(comment.createdAt).toGMTString();
                                 return (
                                     <Row key={comment._id} className="mb-3">
-                                        <Col> <Link to={`/users/${comment.user._id}`}> <strong> {comment.user.username} </strong>  </Link></Col>
+                                        <Col> <Link to={`/users/${comment.user._id}`}> <strong> {comment.user.username} </strong></Link> </Col>
                                         <Col> {comment.message} </Col>
                                         <Col>{auxDate}</Col>
-                                        {/* <p key={comment._id}> <strong> {comment.user.username}: </strong> {comment.message}{auxDate} </p> */}
                                     </Row>
                                 )
                             })
                     )
                     :
                     (
-                        <p>No comments yet.</p>
+                        <p> No comments yet. </p>
                     )
                 }
             </Container>
@@ -221,16 +204,12 @@ const EventDetailsPage = () => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <Modal.Title> Confirm Delete </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this event?</Modal.Body>
+                <Modal.Body> Are you sure you want to delete this event? </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="danger" onClick={handleDeleteEvent}>
-                        Delete
-                    </Button>
+                    <Button variant="secondary" onClick={handleClose}> Cancel </Button>
+                    <Button variant="danger" onClick={handleDeleteEvent}> Delete </Button>
                 </Modal.Footer>
             </Modal>
 

@@ -91,19 +91,21 @@ const UserPage = () => {
             <h1> {userFounded.username} </h1>
             <hr />
             <Row>
-                <Col>
-                    <img src={userFounded.profileImg} alt="profile-img" style={{ width: "50%" }} />
+                <Col className='d-flex justify-content-center' sm={12} md={6}>
+                    <article className='user-img' >
+                        <img src={userFounded.profileImg} alt="profile-img" />
+                    </article>
                 </Col>
 
                 <Col className="mt-5">
                     <Row>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowCreatedEvents}> EVENTS CREATED </Button>
                         </Col>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowAssistedEvents}> EVENTS ASSISTED </Button>
                         </Col>
-                        <Col>
+                        <Col className='mb-4' sm={12} md={4}>
                             <Button variant="primary" onClick={handleShowFollowing}> FOLLOWING </Button>
                         </Col>
                     </Row>
