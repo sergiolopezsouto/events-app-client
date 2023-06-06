@@ -15,6 +15,7 @@ function FeedPage() {
     const [userFounded, setUserFounded] = useState()
     const [allEvents, setAllEvents] = useState()
 
+
     useEffect(() => {
         loadUser()
         loadEvents()
@@ -41,6 +42,7 @@ function FeedPage() {
     }
 
     const followedUserIds = userFounded.following.map(user => user._id);
+    const currentDate = new Date()
 
     return (
 
@@ -49,11 +51,12 @@ function FeedPage() {
                 <Tab eventKey="assisting" title="Is assisting">
                     {
                         allEvents
+                            .filter(event => new Date(event.date) >= currentDate)
                             .map(event => event.assistants
                                 .filter(assistant => followedUserIds.includes(assistant._id))
                                 .map(assistant =>
                                     // <Card className='mb-4'>
-                                    <p key={assistant._id}>
+                                    <p key={assistant._id} className='mb-4'>
                                         <Link to={`/users/${assistant._id}`}> <strong>{assistant.username}</strong></Link> is assisting to <Link to={`/events/${event._id}`}><strong>{event.name}</strong></Link> on {dateToString(event.date)} at {event.time}.
                                     </p>
                                     // </Card>
@@ -65,7 +68,8 @@ function FeedPage() {
                 <Tab eventKey="created" title="Has created">
                     {
                         allEvents
-                            .filter(event => event.creator && followedUserIds.includes(event.creator._id))
+                            .filter(event => event.creator && followedUserIds.includes(event.creator._id) && new Date(event.date) >= currentDate)
+                            // .filter(event => event.creator && followedUserIds.includes(event.creator._id))
                             .map(event =>
                                 event.creator && <p key={event._id}>
                                     <Link to={`/users/${event.creator._id}`}> <strong>{event.creator.username}</strong></Link> has created <Link to={`/events/${event._id}`}><strong>{event.name}</strong></Link> on {dateToString(event.date)} at {event.time}.

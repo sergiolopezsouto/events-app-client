@@ -56,10 +56,8 @@ const EventsPage = () => {
 
     return (
         <Container>
-            <h1> Events: </h1>
-            {/* <hr /> */}
+            <h1> Upcoming Events: </h1>
             <EventFilter filterEvents={filterEvents} />
-            {/* <hr /> */}
             <Row>
                 <EventList events={events} />
             </Row>

@@ -3,9 +3,11 @@ a {
     text-decoration: none;
 }
 
+.card {
+    height: 100%;
+}
 
-.eventCard img {
-    /* height: 100vh; */
-    /* width: 100%; */
+.card img {
+    height: 10em;
     object-fit: cover;
 }

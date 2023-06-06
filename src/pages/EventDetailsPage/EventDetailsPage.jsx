@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import eventsService from "../../services/events.services";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { AuthContext } from "../../contexts/auth.context";
 import { dateToString } from "../../utils/dateFormat";
@@ -14,7 +14,14 @@ const EventDetailsPage = () => {
     const [event, setEvent] = useState();
     const [isAssisting, setIsAssisting] = useState(false)
     const [newComment, setNewComment] = useState("");
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState([])
+    const [show, setShow] = useState(false);
+    const [showAssistants, setShowAssistants] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const handleCloseAssistants = () => setShowAssistants(false);
+    const handleShowAssistants = () => setShowAssistants(true);
 
     const navigate = useNavigate();
 
@@ -50,14 +57,23 @@ const EventDetailsPage = () => {
             .catch((err) => console.log(err));
     }
 
+    // const handleDeleteEvent = () => {
+    //     eventsService
+    //         .deleteEvent(event_id)
+    //         .then()
+    //         .catch((err) => console.log(err));
+
+    //     navigate("/events");
+    // }
 
     const handleDeleteEvent = () => {
         eventsService
             .deleteEvent(event_id)
-            .then()
+            .then(() => {
+                handleClose();
+                navigate("/events");
+            })
             .catch((err) => console.log(err));
-
-        navigate("/events");
     }
 
     const handleAddComment = () => {
@@ -92,12 +108,9 @@ const EventDetailsPage = () => {
                             <p>{event.description}</p>
                         </Col>
                         <Col>
-                            <p>
-                                <strong> CREATOR: </strong>
-                                <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link>
-                            </p>
-
-                            <p><strong> ASSISTANTS: </strong></p>
+                            <p><strong> CREATOR: </strong> <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link></p>
+                            <Button variant="primary" onClick={handleShowAssistants}> SEE ASSISTANTS </Button>
+                            {/* <p><strong> ASSISTANTS: </strong></p>
                             {event.assistants.length > 0 ?
                                 (
                                     event.assistants.map((assistant) => {
@@ -107,7 +120,7 @@ const EventDetailsPage = () => {
                                 :
                                 (
                                     <p> No assistants yet. </p>
-                                )}
+                                )} */}
                         </Col>
                     </Row>
                 </Col>
@@ -126,7 +139,9 @@ const EventDetailsPage = () => {
                                     </Link>
                                 </Col>
                                 <Col>
-                                    <button className="btn btn-danger " onClick={handleDeleteEvent}> DELETE EVENT </button>
+                                    {/* <button className="btn btn-danger " onClick={handleDeleteEvent}> DELETE EVENT </button> */}
+                                    <Button variant="danger" onClick={handleShow}>DELETE EVENT</Button>
+
                                 </Col>
                             </Row>
                         </Container>
@@ -180,6 +195,44 @@ const EventDetailsPage = () => {
                     )
                 }
             </Container>
+
+            <Modal show={showAssistants} onHide={handleCloseAssistants}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Assistants</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {event.assistants.length > 0 ?
+                        (
+                            event.assistants.map((assistant) => {
+                                return <Link key={assistant._id} className="d-block mb-3" to={`/users/${assistant._id}`}> {assistant.username}</Link>
+                            })
+                        )
+                        :
+                        (
+                            <p> No assistants yet. </p>
+                        )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseAssistants}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Delete</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Are you sure you want to delete this event?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={handleDeleteEvent}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </Container>
     );

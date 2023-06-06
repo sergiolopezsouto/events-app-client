@@ -22,9 +22,6 @@ const Navigation = () => {
 
         <Navbar collapseOnSelect expand="md" bg="white" variant="white" sticky='top' className='mb-5'>
             <Container>
-                {/* {
-                    !user ? <Navbar.Brand> <Link to="/">EVENTS APP</Link> </Navbar.Brand> : <Navbar.Brand> <Link to="/feed">EVENTS APP</Link> </Navbar.Brand>
-                } */}
                 <Navbar.Brand> <Link to="/">EVENTS APP</Link> </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
@@ -35,7 +32,7 @@ const Navigation = () => {
                                 <Nav.Link as="span"> <Link to="/feed"> Feed </Link> </Nav.Link>
                                 <Nav.Link as="span"> <Link to="/events"> Events </Link> </Nav.Link>
                                 <Nav.Link as="span"> <Link to="/create-event"> Create Event </Link> </Nav.Link>
-                                {/* <Nav.Link as="span"> <Link to="/users"> //Users </Link> </Nav.Link> */}
+                                <Nav.Link as="span"> <Link to="/users"> Search People </Link> </Nav.Link>
                             </>
                         }
                     </Nav>
