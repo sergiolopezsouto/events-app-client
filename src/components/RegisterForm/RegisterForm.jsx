@@ -86,7 +86,7 @@ const RegisterForm = () => {
             </div>
 
             <div className='d-grid mt-5'>
-                <Button variant="dark" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Register'}</Button>
+                <Button variant="primary" type="submit" disabled={loadingImage}>{loadingImage ? 'Loading image...' : 'Register'}</Button>
             </div>
 
         </Form>

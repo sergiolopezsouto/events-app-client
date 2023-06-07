@@ -1,4 +1,4 @@
-import { GoogleMap, Marker, MarkerF } from '@react-google-maps/api';
+import { GoogleMap, Marker, MarkerF } from '@react-google-maps/api'
 
 
 const containerStyle = {

@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { Container, Row, Col, Button } from "react-bootstrap"
 import { AuthContext } from "../../contexts/auth.context"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
-// import Spline from '@splinetool/react-spline'
-// import { Application } from "@splinetool/runtime";
+import Spline from '@splinetool/react-spline'
 
 
 const HomePage = () => {
@@ -22,17 +21,6 @@ const HomePage = () => {
         }
     }, [user, navigate])
 
-    // useEffect(() => {
-    //     if (isLogged) {
-    //         const canvas = document.getElementById("canvas3d");
-    //         const app = new Application(canvas);
-    //         app.load("https://prod.spline.design/GMQvBU5qnCiH4SKu/scene.splinecode");
-
-    //         return () => {
-    //             app.destroy();
-    //         };
-    //     }
-    // }, [isLogged]);
 
 
     if (!isLogged) {
@@ -40,24 +28,33 @@ const HomePage = () => {
     }
 
     return (
-        <Container style={{ marginTop: "200px" }}>
+        <Container style={{ marginTop: "100px" }}>
             <Row>
-                <Col md={6}>
-                    <h1 className="mb-5">Home Page</h1>
+                <Col sm={12} md={6} style={{ marginTop: "50px" }}>
+                    <h1 className="mb-5"> EVENTS APP </h1>
+                    <p>asjdfhjaksdfgjadshfhjasdgfkhasfhasjf</p>
+                    <p>adjfnajsdkfnajdsfmhcakshcshdfjksahmfchacfhj,fhamacfjmascfjc</p>
                     <p className="mb-5">asdbfhasgfhagsdkfhhagdshjfgh</p>
                     <Row className="mt-5">
                         <Col>
-                            <Button className='btn btn-primary'> Register </Button>
+                            <Link to={'/register'}>
+                                <Button className='btn btn-primary' style={{ padding: "4%", paddingInline: "12%" }}> Register </Button>
+                            </Link>
                         </Col>
                         <Col>
-                            <Button className='btn btn-primary'> Login </Button>
+                            <Link to={'/login'}>
+                                <Button className='btn btn-primary' style={{ padding: "4%", paddingInline: "12%" }}> Login </Button>
+                            </Link>
                         </Col>
                     </Row>
                 </Col>
-                <Col md={6}>
-                    <h1>3D</h1>
-                    {/* <canvas id="canvas3d"></canvas> */}
-                    {/* <canvas id="canvas3d" style={{ height: "500px" }}></canvas> */}
+                <Col md={6} >
+                    {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spline scene="https://prod.spline.design/GMQvBU5qnCiH4SKu/scene.splinecode" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }} />
+                    </div> */}
+                    <div style={{ justifyContent: 'left' }}>
+                        <Spline scene="https://prod.spline.design/8ooMk25lNm7YPJ1B/scene.splinecode" />
+                    </div>
 
                 </Col>
             </Row>

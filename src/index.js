@@ -13,7 +13,7 @@ root.render(
     <AuthProviderWrapper>
       <ThemeProviderWrapper>
         <Router>
-          <LoadScript googleMapsApiKey="AIzaSyBRgKaKfGaksL3PDZ-uWmOsj-PCBgJSE-E" libraries={['places']}>
+          <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} libraries={['places']}>
             <App />
           </LoadScript>
         </Router>

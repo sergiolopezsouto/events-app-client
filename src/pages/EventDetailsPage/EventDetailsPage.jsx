@@ -6,10 +6,15 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { AuthContext } from "../../contexts/auth.context";
 import { dateToString } from "../../utils/dateFormat";
 import MapContainer from "../../components/MapContainer/MapContainer";
+import { loadStripe } from '@stripe/stripe-js';
+
 
 const EventDetailsPage = () => {
     const { user } = useContext(AuthContext);
     const { event_id } = useParams();
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+    const [paymentSuccessful, setPaymentSuccessful] = useState();
+
 
     const [event, setEvent] = useState();
     const [isAssisting, setIsAssisting] = useState(false)
@@ -34,7 +39,13 @@ const EventDetailsPage = () => {
                 setComments(res.data.comments)
             })
             .catch((err) => console.log(err))
-    }, [event_id, user?._id])
+    }, [event_id, user?._id, paymentSuccessful])
+
+    useEffect(() => {
+        if (paymentSuccessful) {
+            setIsAssisting(true);
+        }
+    }, [paymentSuccessful]);
 
 
     const handleAssist = () => {
@@ -72,6 +83,36 @@ const EventDetailsPage = () => {
             })
             .catch((err) => console.log(err));
     }
+
+    const handleCheckout = async () => {
+        const stripe = await stripePromise;
+
+        const response = await fetch('http://localhost:5005/api/stripe/create-checkout-session', {
+            method: 'POST',
+            body: JSON.stringify({
+                success_url: `${window.location.origin}/events/${event_id}`,
+                price: 5 * 100,
+                event_name: event.name
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const session = await response.json();
+
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+        });
+
+        console.log(result)
+
+        if (result.error) {
+            alert(result.error.message);
+        } else {
+            handleAssist();
+            setPaymentSuccessful(true)
+        }
+    }
+
 
 
     if (!event || !event.assistants) {
@@ -116,7 +157,7 @@ const EventDetailsPage = () => {
                                     </Link>
                                 </Col>
                                 <Col>
-                                    <Button variant="danger" onClick={handleShow}>DELETE EVENT</Button>
+                                    <Button variant="danger" onClick={handleShow}> DELETE EVENT </Button>
                                 </Col>
                             </Row>
                         </Container>
@@ -132,7 +173,17 @@ const EventDetailsPage = () => {
                             {
                                 !isAssisting ?
                                     (
-                                        <button className="btn btn-success" onClick={handleAssist}> ASSIST </button>
+                                        <>
+                                            {
+                                                event.price ?
+                                                    <>
+                                                        <p><strong> Price: </strong> {event.price} USD </p>
+                                                        <Button variant="dark" onClick={handleCheckout}> PAY TO ASSIST </Button>
+                                                    </>
+                                                    :
+                                                    <button className="btn btn-success" onClick={handleAssist}> ASSIST </button>
+                                            }
+                                        </>
                                     )
                                     :
                                     (
