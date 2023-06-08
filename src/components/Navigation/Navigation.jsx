@@ -23,7 +23,9 @@ const Navigation = () => {
 
         <Navbar collapseOnSelect expand="md" bg="white" variant="white" sticky='top' className='mb-5'>
             <Container>
-                <Navbar.Brand> <Link to="/">{SITE_TITLE}</Link> </Navbar.Brand>
+                {
+                    user && <Navbar.Brand> <Link to="/">{SITE_TITLE}</Link> </Navbar.Brand>
+                }
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -37,7 +39,7 @@ const Navigation = () => {
                             </>
                         }
                     </Nav>
-                    <Nav>
+                    {/* <Nav>
                         {
                             user ?
                                 <>
@@ -50,7 +52,18 @@ const Navigation = () => {
                                     <Nav.Link as="span"> <Link to="/login"> Login </Link> </Nav.Link>
                                 </>
                         }
+                    </Nav> */}
+                    <Nav>
+                        {
+                            user &&
+                            <>
+                                <Nav.Link as="span"> <Link to="/profile"> Profile </Link> </Nav.Link>
+                                <Nav.Link as="span" onClick={handleLogout}> <Link to={'/'}> Logout </Link> </Nav.Link>
+                            </>
+                        }
                     </Nav>
+
+
                 </Navbar.Collapse>
             </Container>
         </Navbar>
