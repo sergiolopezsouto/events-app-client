@@ -108,7 +108,7 @@ const EventDetailsPage = () => {
     const handleCheckout = async () => {
         const stripe = await stripePromise;
 
-        const response = await fetch('http://localhost:5005/api/stripe/create-checkout-session', {
+        const response = await fetch(process.env.REACT_APP_API_URL + '/stripe/create-checkout-session', {
             method: 'POST',
             body: JSON.stringify({
                 success_url: `${window.location.origin}/events/${event_id}`,
