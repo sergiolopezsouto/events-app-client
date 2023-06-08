@@ -13,6 +13,8 @@ import EditProfilePage from "../pages/EditProfilePage/EditProfilePage"
 import EditEventPage from "../pages/EditEventPage/EditEventPage"
 import FeedPage from "../pages/FeedPage/FeedPage"
 import UserList from "../pages/UserList/UserList"
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess"
+import PaymentCancelled from "../pages/PaymentCancelled/PaymentCancelled"
 
 
 const AppRoutes = () => {
@@ -30,6 +32,8 @@ const AppRoutes = () => {
                 <Route path="/events" element={<EventListPage />} />
                 <Route path="/events/:event_id" element={<EventDetailsPage />} />
                 <Route path="/events/:event_id/edit" element={<EditEventPage />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-cancelled" element={<PaymentCancelled />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/:user_id" element={<UserPage />} />
                 <Route path="/profile" element={<ProfilePage />} />

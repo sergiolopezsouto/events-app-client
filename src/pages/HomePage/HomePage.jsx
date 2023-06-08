@@ -30,7 +30,7 @@ const HomePage = () => {
     return (
         <Container style={{ marginTop: "100px" }}>
             <Row>
-                <Col sm={12} md={6} style={{ marginTop: "50px" }}>
+                <Col sm={12} md={6} style={{ marginTop: "100px" }}>
                     <h1 className="mb-5"> EVENTS APP </h1>
                     <p>asjdfhjaksdfgjadshfhjasdgfkhasfhasjf</p>
                     <p>adjfnajsdkfnajdsfmhcakshcshdfjksahmfchacfhj,fhamacfjmascfjc</p>

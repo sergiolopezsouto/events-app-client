@@ -98,7 +98,6 @@ const EventForm = () => {
                 </Col>
             </Row>
 
-            {/* TODO juntar en un solo input que sea buscador de sitios con la api de google maps */}
             <Row>
                 <Form.Group className="mb-4" controlId="eventLocation">
                     <Form.Label> Location </Form.Label>
@@ -114,7 +113,6 @@ const EventForm = () => {
                 </Form.Group>
             </Row>
 
-            {/* TODO pensar si quitar la imagen y dejar solamente el mapa */}
             <Form.Group className="mb-4" controlId="image">
                 <Form.Label> Image </Form.Label>
                 <Form.Control type="file" onChange={handleFileUpload} />

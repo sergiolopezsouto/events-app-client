@@ -61,7 +61,7 @@ const EventDetailsPage = () => {
         eventsService
             .notAssistEvent({ event_id })
             .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
     }
 
     const handleDeleteEvent = () => {
@@ -71,17 +71,17 @@ const EventDetailsPage = () => {
                 handleClose();
                 navigate("/events");
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
     }
 
     const handleAddComment = () => {
         eventsService
             .addComment(event_id, newComment)
             .then(({ data }) => {
-                setComments(data.comments);
+                setComments(data.comments)
                 setNewComment("");
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
     }
 
     const handleCheckout = async () => {
@@ -91,8 +91,11 @@ const EventDetailsPage = () => {
             method: 'POST',
             body: JSON.stringify({
                 success_url: `${window.location.origin}/events/${event_id}`,
-                price: 5 * 100,
-                event_name: event.name
+                price: event.price * 100,
+                event_name: event.name,
+                event_id: event._id,
+                user_id: user._id,
+                image_url: event.imageUrl
             }),
             headers: { 'Content-Type': 'application/json' },
         });
@@ -133,6 +136,12 @@ const EventDetailsPage = () => {
                         <Col style={{ textAlign: "left" }}>
                             <p><strong> DATE: </strong> {dateToString(event.date)}</p>
                             <p><strong> TIME: </strong> {event.time} </p>
+                            {
+                                event.price === 0 ?
+                                    <p><strong> PRICE: </strong> FREE </p>
+                                    :
+                                    <p><strong> PRICE: </strong> {event.price} USD </p>
+                            }
                             <p><strong> CREATOR: </strong> <Link to={`/users/${event.creator._id}`}> {event.creator.username} </Link></p>
                             <p><strong> DESCRIPTION: </strong></p>
                             <p>{event.description}</p>
@@ -144,59 +153,52 @@ const EventDetailsPage = () => {
                 </Col>
             </Row>
 
+
             <hr />
+
 
             {user._id === event.creator._id ?
                 (
-                    <>
-                        <Container className="mt-3 mb-3">
-                            <Row>
-                                <Col>
-                                    <Link to={`/events/${event_id}/edit`}>
-                                        <button className="btn btn-dark"> EDIT EVENT </button>
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <Button variant="danger" onClick={handleShow}> DELETE EVENT </Button>
-                                </Col>
-                            </Row>
-                        </Container>
-
-                        <hr />
-                    </>
+                    <Container className="mt-4 mb-4">
+                        <Row>
+                            <Col>
+                                <Link to={`/events/${event_id}/edit`}>
+                                    <button className="btn btn-dark"> EDIT EVENT </button>
+                                </Link>
+                            </Col>
+                            <Col>
+                                <Button variant="danger" onClick={handleShow}> DELETE EVENT </Button>
+                            </Col>
+                        </Row>
+                    </Container>
                 )
                 :
                 (
-                    <>
-                        <Container className="mt-3 mb-3">
-
-                            {
-                                !isAssisting ?
-                                    (
-                                        <>
-                                            {
-                                                event.price ?
-                                                    <>
-                                                        <p><strong> Price: </strong> {event.price} USD </p>
-                                                        <Button variant="dark" onClick={handleCheckout}> PAY TO ASSIST </Button>
-                                                    </>
-                                                    :
-                                                    <button className="btn btn-success" onClick={handleAssist}> ASSIST </button>
-                                            }
-                                        </>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-danger" onClick={handleNotAssist}> NOT ASSIST </button>
-                                    )
-                            }
-
-                            <hr className="mt-3" />
-                        </Container>
-
-                    </>
+                    <Container className="mt-4 mb-4">
+                        {
+                            !isAssisting ?
+                                (
+                                    <>
+                                        {
+                                            event.price ?
+                                                <button className="btn btn-dark" onClick={handleCheckout}> PAY TO ASSIST </button>
+                                                :
+                                                <button className="btn btn-success" onClick={handleAssist}> ASSIST </button>
+                                        }
+                                    </>
+                                )
+                                :
+                                (
+                                    <button className="btn btn-danger" onClick={handleNotAssist}> NOT ASSIST </button>
+                                )
+                        }
+                    </Container>
                 )
             }
+
+
+            <hr />
+
 
             <h3 className="mt-5"> COMMENTS: </h3>
 
@@ -230,6 +232,8 @@ const EventDetailsPage = () => {
                 }
             </Container>
 
+
+            // ---------------- ALL MODALS ----------------
             <Modal show={showAssistants} onHide={handleCloseAssistants}>
                 <Modal.Header closeButton>
                     <Modal.Title>Assistants</Modal.Title>
