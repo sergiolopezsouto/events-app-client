@@ -20,6 +20,7 @@ const EventFilter = ({ filterEvents }) => {
 
         if (!inputValue) {
             filterEvents(null)
+            setDateQuery(null)
         } else {
             const dateValue = new Date(inputValue)
             setDateQuery(dateFormat(dateValue))

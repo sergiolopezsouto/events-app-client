@@ -20,6 +20,7 @@ const EventForm = () => {
         date: undefined,
         time: undefined,
         location: '',
+        price: null,
     })
 
     const [loadingImage, setLoadingImage] = useState(false)
@@ -94,6 +95,12 @@ const EventForm = () => {
                     <Form.Group className="mb-4" controlId="eventTime">
                         <Form.Label> Time </Form.Label>
                         <Form.Control type="time" name="time" value={eventData.time} onChange={handleInputChange} />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className="mb-4" controlId="eventDate">
+                        <Form.Label> Price </Form.Label>
+                        <Form.Control type="number" name="price" value={eventData.price} onChange={handleInputChange} />
                     </Form.Group>
                 </Col>
             </Row>

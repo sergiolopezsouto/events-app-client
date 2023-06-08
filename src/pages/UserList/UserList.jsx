@@ -9,16 +9,21 @@ const UserList = () => {
     const [searchTerm, setSearchTerm] = useState('')
 
     useEffect(() => {
+        loadUsers()
+    }, [])
+
+    const loadUsers = () => {
         usersService
             .getAllUsers()
             .then(res => setUsers(res.data))
             .catch(err => console.log(err))
-    }, [])
+    }
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value)
     }
 
+    // TODO: DESACOPLAR A UTILS
     const filteredUsers = searchTerm
         ? users?.filter(user =>
             user.username.toLowerCase().includes(searchTerm.toLowerCase())

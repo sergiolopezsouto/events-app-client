@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/auth.context';
 
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'
+import { SITE_TITLE } from '../../consts/project-consts';
 
 
 const Navigation = () => {
@@ -22,7 +23,7 @@ const Navigation = () => {
 
         <Navbar collapseOnSelect expand="md" bg="white" variant="white" sticky='top' className='mb-5'>
             <Container>
-                <Navbar.Brand> <Link to="/">EVENTS APP</Link> </Navbar.Brand>
+                <Navbar.Brand> <Link to="/">{SITE_TITLE}</Link> </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

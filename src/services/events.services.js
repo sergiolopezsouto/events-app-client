@@ -52,7 +52,6 @@ class EventService {
         return this.api.post(`/${event_id}/comments`, { comment })
     }
 
-
 }
 
 

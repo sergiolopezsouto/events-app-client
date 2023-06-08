@@ -41,6 +41,7 @@ function FeedPage() {
         return <LoadingSpinner />
     }
 
+    // TODO: DESACOPLAR EN UTILS
     const followedUserIds = userFounded.following.map(user => user._id);
     const currentDate = new Date()
 

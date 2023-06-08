@@ -26,6 +26,7 @@ const EditEventForm = () => {
         date: '',
         time: '',
         location: { address: '', latitude: null, longitude: null },
+        price: '',
     })
 
     const [loadingImage, setLoadingImage] = useState(false)
@@ -52,6 +53,7 @@ const EditEventForm = () => {
                 date: eventFounded.date,
                 time: eventFounded.time,
                 location: eventFounded.location,
+                price: eventFounded.price,
             })
         }
     }, [eventFounded])
@@ -131,6 +133,12 @@ const EditEventForm = () => {
                     <Form.Group className="mb-4" controlId="eventTime">
                         <Form.Label> Time </Form.Label>
                         <Form.Control type="time" name="time" value={eventData.time} onChange={handleInputChange} />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className="mb-4" controlId="eventDate">
+                        <Form.Label> Price </Form.Label>
+                        <Form.Control type="number" name="price" value={eventData.price} onChange={handleInputChange} />
                     </Form.Group>
                 </Col>
             </Row>

@@ -30,6 +30,8 @@ const EventsPage = () => {
             .catch(err => console.log(err))
     }
 
+    // TODO: MOVER FILTROS A API
+    // CREANDO SERVICIO FILTEREVENTS QUE RECIBA POR QUERY STRINGS CADA FILTRO
     const filterEvents = query => {
 
         if (typeof query == "string") {
@@ -59,7 +61,11 @@ const EventsPage = () => {
             <h1> Upcoming Events: </h1>
             <EventFilter filterEvents={filterEvents} />
             <Row>
-                <EventList events={events} />
+                {events.length > 0 ?
+                    <EventList events={events} />
+                    :
+                    <p className='mt-5'>No events match your filters.</p>
+                }
             </Row>
         </Container>
     )

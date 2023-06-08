@@ -1,6 +1,7 @@
 import { Button, Container, Card, Alert } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import eventsService from '../../services/events.services';
+import { useEffect } from 'react';
 
 const PaymentSuccess = () => {
 
@@ -8,10 +9,13 @@ const PaymentSuccess = () => {
     const queryParams = new URLSearchParams(location.search);
     const event_id = queryParams.get('eventId');
 
-    eventsService
-        .assistEvent({ event_id })
-        .then()
-        .catch((err) => console.log(err))
+    useEffect(() => {
+        eventsService
+            .assistEvent({ event_id })
+            .then()
+            .catch((err) => console.log(err))
+    }, [])
+
 
     return (
         <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: "10%" }}>

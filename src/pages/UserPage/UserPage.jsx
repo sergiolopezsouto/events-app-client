@@ -24,6 +24,7 @@ const UserPage = () => {
     const [showAssistedEvents, setShowAssistedEvents] = useState(false);
     const [showFollowing, setShowFollowing] = useState(false);
 
+    // TODO: VENTANA MODAL UNICA DINAMICA
     const handleCloseCreatedEvents = () => setShowCreatedEvents(false);
     const handleShowCreatedEvents = () => setShowCreatedEvents(true);
     const handleCloseAssistedEvents = () => setShowAssistedEvents(false);
@@ -80,7 +81,7 @@ const UserPage = () => {
 
 
 
-    if (!user || !userFounded) {
+    if (!userFounded) {
         return <LoadingSpinner />
     }
 

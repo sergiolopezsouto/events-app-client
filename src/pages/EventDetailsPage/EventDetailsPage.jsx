@@ -15,18 +15,24 @@ const EventDetailsPage = () => {
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
     const [paymentSuccessful, setPaymentSuccessful] = useState();
 
-
     const [event, setEvent] = useState();
     const [isAssisting, setIsAssisting] = useState(false)
     const [newComment, setNewComment] = useState("");
     const [comments, setComments] = useState([])
     const [show, setShow] = useState(false);
     const [showAssistants, setShowAssistants] = useState(false);
+    const [showNotAssistConfirm, setShowNotAssistConfirm] = useState(false);
+
+    // TODO: CREAR VENTANA MODAL ÚNICA DINAMIZANDO HEADER, BODY Y FOOTER
+    // const [modalContent, setModalContent] = useState('assistants')
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleCloseAssistants = () => setShowAssistants(false);
     const handleShowAssistants = () => setShowAssistants(true);
+    const handleCloseNotAssistConfirm = () => setShowNotAssistConfirm(false);
+    const handleShowNotAssistConfirm = () => setShowNotAssistConfirm(true);
+
 
     const navigate = useNavigate();
 
@@ -57,12 +63,27 @@ const EventDetailsPage = () => {
     }
 
     const handleNotAssist = () => {
+        handleShowNotAssistConfirm();
+    }
+
+    const confirmNotAssist = () => {
         setIsAssisting(false);
         eventsService
             .notAssistEvent({ event_id })
             .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
             .catch((err) => console.log(err))
+        handleCloseNotAssistConfirm();
     }
+
+
+
+    // const handleNotAssist = () => {
+    //     setIsAssisting(false);
+    //     eventsService
+    //         .notAssistEvent({ event_id })
+    //         .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
+    //         .catch((err) => console.log(err))
+    // }
 
     const handleDeleteEvent = () => {
         eventsService
@@ -105,8 +126,6 @@ const EventDetailsPage = () => {
         const result = await stripe.redirectToCheckout({
             sessionId: session.id,
         });
-
-        console.log(result)
 
         if (result.error) {
             alert(result.error.message);
@@ -233,7 +252,7 @@ const EventDetailsPage = () => {
             </Container>
 
 
-            // ---------------- ALL MODALS ----------------
+            {/* ---------------- ALL MODALS ---------------- */}
             <Modal show={showAssistants} onHide={handleCloseAssistants}>
                 <Modal.Header closeButton>
                     <Modal.Title>Assistants</Modal.Title>
@@ -254,6 +273,24 @@ const EventDetailsPage = () => {
                     <Button variant="secondary" onClick={handleCloseAssistants}>
                         Close
                     </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showNotAssistConfirm} onHide={handleCloseNotAssistConfirm}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Not Assist</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {
+                        event.price === 0 ?
+                            <p>This is a free event.</p> :
+                            <p>This event cost {event.price} USD. Remember that you will not be refunded.</p>
+                    }
+                    Do you want to indicate that you will not assist this event?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseNotAssistConfirm}>Cancel</Button>
+                    <Button variant="danger" onClick={confirmNotAssist}>Not Assist</Button>
                 </Modal.Footer>
             </Modal>
 
