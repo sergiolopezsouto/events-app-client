@@ -92,7 +92,7 @@ const UserPage = () => {
             <h1> {userFounded.username} </h1>
             <hr />
             <Row>
-                <Col className='d-flex justify-content-center' sm={12} md={6}>
+                <Col className='d-flex justify-content-center my-2' sm={12} md={6}>
                     <article className='user-img' >
                         <img src={userFounded.profileImg} alt="profile-img" />
                     </article>
@@ -114,7 +114,7 @@ const UserPage = () => {
             </Row>
             <hr />
             {
-                !isFollowing ? <button className="btn btn-success" onClick={handleFollow}> FOLLOW </button> : <button className="btn btn-danger" onClick={handleUnfollow}> UNFOLLOW </button>
+                !isFollowing ? <button className="btn btn-success my-4" onClick={handleFollow}> FOLLOW </button> : <button className="btn btn-danger my-4" onClick={handleUnfollow}> UNFOLLOW </button>
             }
             <hr />
 

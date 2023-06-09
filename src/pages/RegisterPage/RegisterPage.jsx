@@ -28,7 +28,7 @@ const RegisterPage = () => {
 
     return (
 
-        <Container>
+        <Container className="mt-5">
             <Row>
                 <Col md={{ offset: 3, span: 6 }}>
                     <h1>Register</h1>

@@ -75,16 +75,6 @@ const EventDetailsPage = () => {
         handleCloseNotAssistConfirm();
     }
 
-
-
-    // const handleNotAssist = () => {
-    //     setIsAssisting(false);
-    //     eventsService
-    //         .notAssistEvent({ event_id })
-    //         .then(({ data }) => event?.assistants.length !== data.assistants.length && setEvent(data))
-    //         .catch((err) => console.log(err))
-    // }
-
     const handleDeleteEvent = () => {
         eventsService
             .deleteEvent(event_id)
@@ -284,7 +274,7 @@ const EventDetailsPage = () => {
                     {
                         event.price === 0 ?
                             <p>This is a free event.</p> :
-                            <p>This event cost {event.price} USD. Remember that you will not be refunded.</p>
+                            <p>This event cost <strong> {event.price} USD. </strong>Remember that you <strong>will not be refunded.</strong></p>
                     }
                     Do you want to indicate that you will not assist this event?
                 </Modal.Body>

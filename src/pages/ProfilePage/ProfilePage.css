@@ -3,14 +3,13 @@
     text-decoration: line-through;
 }
 
-.user-img {
+.profile-img {
     overflow: hidden;
-    height: 20em;
-    width: 20em;
+    height: 18em;
+    width: 18em;
     border-radius: 50%;
 }
 
-img {
-    object-fit: cover;
-    position: center center;
+.profile-img img {
+    width: 100% !important;
 }

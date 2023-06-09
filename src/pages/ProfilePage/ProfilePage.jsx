@@ -58,11 +58,8 @@ const ProfilePage = () => {
             <h1> Hello, {userFounded.username} </h1>
             <hr />
             <Row>
-                {/* <Col>
-                    <img src={userFounded.profileImg} alt="profile-img" style={{ width: "50%", borderRadius: "100%" }} />
-                </Col> */}
-                <Col className='d-flex justify-content-center' sm={12} md={6}>
-                    <article className='user-img' >
+                <Col className='d-flex justify-content-center my-2' sm={12} md={6}>
+                    <article className='profile-img' >
                         <img src={userFounded.profileImg} alt="profile-img" />
                     </article>
                 </Col>
@@ -83,7 +80,7 @@ const ProfilePage = () => {
             </Row>
             <hr />
             <Link to={'/profile/edit'}>
-                <button className="btn btn-dark mt-5"> EDIT PROFILE </button>
+                <button className="btn btn-dark mt-4"> EDIT PROFILE </button>
             </Link>
 
             <Modal show={showCreatedEvents} onHide={handleCloseCreatedEvents}>
